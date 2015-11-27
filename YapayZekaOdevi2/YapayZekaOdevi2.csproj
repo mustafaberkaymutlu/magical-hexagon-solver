@@ -64,8 +64,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ArrayToDataGridConverter.cs" />
+    <Compile Include="ArrayToHexagonalConverter.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="HillClimbing.cs" />
+    <Compile Include="Row.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

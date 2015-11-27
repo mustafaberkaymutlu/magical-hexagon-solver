@@ -9,6 +9,24 @@
 
     <Window.Resources>
         <local:ArrayToDataGridConverter x:Key="ArrayToDataGridConverter" />
+        <local:ArrayToHexagonalConverter x:Key="ArrayToHexagonalConverter" />
+
+        
+        <DataTemplate x:Key="DataTemplate_Level1">
+            <ItemsControl ItemsSource="{Binding}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding}" Height="40" Width="50" Margin="4,4,4,4"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+
     </Window.Resources>
 
 
@@ -63,9 +81,14 @@
                 <DataTemplate>
                     <StackPanel
                         Orientation="Horizontal">
+
+                        <Label 
+                            Name="StepNo"
+                            Content="{Binding StepNo}"/>
+
                         <ListView
                             Name="listView_steps_row"
-                            ItemsSource="{Binding .}"
+                            ItemsSource="{Binding RowElements}"
                             MinHeight="100">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -80,31 +103,25 @@
                                             Text="{Binding kNo, StringFormat='K #{0:0,0}:'}"
                                             Padding="10,10,0,0"/>
 
-                                        <DataGrid
-                                                Height="Auto"
-                                                Width="Auto"
-                                                Margin="10"
-                                                AutoGenerateColumns="True"
-                                                HeadersVisibility="None"
-                                                IsReadOnly="True">
+                                        <Grid>
+                                            <ItemsControl 
+                                                x:Name="lst" 
+                                                ItemsSource="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}}"
+                                                ItemTemplate="{DynamicResource DataTemplate_Level1}"/>
+                                        </Grid>
 
-                                            <DataGrid.ItemsSource>
-                                                <MultiBinding Converter="{StaticResource ArrayToDataGridConverter}">
-                                                    <Binding Path="."/>
-                                                </MultiBinding>
-                                            </DataGrid.ItemsSource>
-
-                                        </DataGrid>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
 
                         <Label 
-                            Name="average"/>
+                            Name="average"
+                            Content="{Binding Average}"/>
 
                         <Label 
-                            Name="best"/>
+                            Name="best"
+                            Content="{Binding Best}"/>
 
                     </StackPanel>
                 </DataTemplate>

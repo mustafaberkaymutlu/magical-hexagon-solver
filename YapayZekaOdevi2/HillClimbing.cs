@@ -9,7 +9,7 @@ namespace YapayZekaOdevi2
     {
         //private List<String> processedBoards = new List<String>(); // List that keeps each of the processed Board's BoardCode. 
         
-        public List<List<Board>> FindLocalMaximum(BackgroundWorker worker, byte k)
+        public List<Row> FindLocalMaximum(BackgroundWorker worker, byte k)
         {
             bool found = false;
             //Board finalBoard = null;
@@ -58,15 +58,16 @@ namespace YapayZekaOdevi2
                 finalBoardPaths[i] = currentBoards[i].GetPath();
             }
 
-            List<List<Board>> finalBoards = new List<List<Board>>();
+            List<Row> finalBoards = new List<Row>();
 
             for(int i = 0; i < finalBoardPaths[0].Count; i++)
             {
-                List<Board> row = new List<Board>();
+                Row row = new Row();
+                row.StepNo = i + 1;
 
                 for(byte j=0;j< k; j++)
                 {
-                    row.Add(finalBoardPaths[j].ElementAt(i));
+                    row.RowElements.Add(finalBoardPaths[j].ElementAt(i));
                 }
 
                 finalBoards.Add(row);

@@ -34,7 +34,7 @@ namespace YapayZekaOdevi2
 
         private void solverWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            List<List<Board>> finalBoards = e.Result as List<List<Board>>;
+            List<Row> finalBoards = e.Result as List<Row>;
 
             if (finalBoards != null)
             {
@@ -54,7 +54,7 @@ namespace YapayZekaOdevi2
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             HillClimbing hillClimbing = new HillClimbing();
-            List<List<Board>> finalBoards = hillClimbing.FindLocalMaximum(worker, (byte)e.Argument);
+            List<Row> finalBoards = hillClimbing.FindLocalMaximum(worker, (byte)e.Argument);
 
             e.Result = finalBoards;
         }
