@@ -6,39 +6,110 @@
         xmlns:local="clr-namespace:YapayZekaOdevi2"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
 
+    <Window.Resources>
+        <local:ArrayToDataGridConverter x:Key="ArrayToDataGridConverter" />
+    </Window.Resources>
+
+
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
 
-        <Grid
-            Name="grid_elements"
+        <Canvas
             Grid.Row="0"
-            Grid.Column="0">
+            Grid.Column="0"
+            Height="100">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Label
+                Content="Paralel Tepe Tırmanma ile Sayı Yerleştirme"
+                Grid.Row="0"
+                Grid.Column="0" Canvas.Left="10"/>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <TextBox
+                Name="txtBox_k"
+                Width="100" Canvas.Left="41" Canvas.Top="44" Text="10"/>
 
-        </Grid>
+            <Label
+                Content="K:"
+                Grid.Row="1"
+                Grid.Column="0" Canvas.Left="6" Canvas.Top="36"/>
+            
+            <Button 
+                Name="btn_start"
+                Content="Başla" Canvas.Left="187" Canvas.Top="42" Width="86" Click="btn_start_Click"/>
+            
+            <Button 
+                Name="btn_cancel"
+                Content="İptal" Click="btn_cancel_Click" Canvas.Left="306" Canvas.Top="42" Width="80"/>
+
+            <Label 
+                Content="Adımlar:" Canvas.Left="10" Canvas.Top="74"/>
+
+        </Canvas>
+
+        <ListView
+            Name="listView_steps"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="10,0,10,0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <ListView
+                            Name="listView_steps_row"
+                            MinHeight="100">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+
+                                        <TextBlock 
+                                            Text="{Binding kNo, StringFormat='K #{0:0,0}:'}"
+                                            Padding="10,10,0,0"/>
+
+                                        <DataGrid
+                                                Height="Auto"
+                                                Width="Auto"
+                                                Margin="10"
+                                                AutoGenerateColumns="True"
+                                                HeadersVisibility="None"
+                                                IsReadOnly="True">
+
+                                            <DataGrid.ItemsSource>
+                                                <MultiBinding Converter="{StaticResource ArrayToDataGridConverter}">
+                                                    <Binding Path="."/>
+                                                </MultiBinding>
+                                            </DataGrid.ItemsSource>
+
+                                        </DataGrid>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                        <Label 
+                            Name="average"/>
+
+                        <Label 
+                            Name="best"/>
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
 
 
     </Grid>
