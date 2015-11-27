@@ -34,12 +34,11 @@ namespace YapayZekaOdevi2
 
         private void solverWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            Board finalBoard = e.Result as Board;
+            List<List<Board>> finalBoards = e.Result as List<List<Board>>;
 
-            if (finalBoard != null)
+            if (finalBoards != null)
             {
-                //List<Board> temp = finalBoard.GetPath();
-                //listView_steps.ItemsSource = temp;
+                listView_steps.ItemsSource = finalBoards;
 
                 MessageBox.Show("Result found!");
             }
@@ -55,9 +54,9 @@ namespace YapayZekaOdevi2
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             HillClimbing hillClimbing = new HillClimbing();
-            Board finalBoard = hillClimbing.FindLocalMaximum(worker, (byte)e.Argument);
+            List<List<Board>> finalBoards = hillClimbing.FindLocalMaximum(worker, (byte)e.Argument);
 
-            e.Result = finalBoard;
+            e.Result = finalBoards;
         }
 
         private void btn_start_Click(object sender, RoutedEventArgs e)

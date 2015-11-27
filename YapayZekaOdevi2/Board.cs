@@ -9,10 +9,12 @@ namespace YapayZekaOdevi2
         public byte[] BoardList { get; set; }
         public byte[] Sums;
         public double Height;
+        private Board ParentBoard; // This is used to keep board's path. So that we can track back to the first board status.
 
-        public Board(byte[] boardList)
+        public Board(byte[] boardList, Board parent)
         {
             this.BoardList = boardList;
+            this.ParentBoard = parent;
             CalculateSums();
             CalculateHeight();
         }
@@ -66,8 +68,8 @@ namespace YapayZekaOdevi2
         // Returns whether the board is final board.
         public bool IsFinalBoard()
         {
-            if (Sums.Any(o => o != Sums[0])) return true;
-            else return false;
+            if (Sums.Any(o => o != Sums[0])) return false;
+            else return true;
 
         }
 
@@ -87,6 +89,22 @@ namespace YapayZekaOdevi2
             Height = retVal;
         }
 
+        // Returns the board's path from the beginning. This is required to display step-by-step progress in the UI.
+        public List<Board> GetPath()
+        {
+            List<Board> retVal = new List<Board>();
+            Board temp = this;
+
+            while (temp != null)
+            {
+                retVal.Add(temp);
+                temp = temp.ParentBoard;
+            }
+
+            retVal.Reverse();
+
+            return retVal;
+        }
 
     }
 }

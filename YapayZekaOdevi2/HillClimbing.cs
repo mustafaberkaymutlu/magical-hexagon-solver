@@ -9,10 +9,10 @@ namespace YapayZekaOdevi2
     {
         //private List<String> processedBoards = new List<String>(); // List that keeps each of the processed Board's BoardCode. 
         
-        public Board FindLocalMaximum(BackgroundWorker worker, byte k)
+        public List<List<Board>> FindLocalMaximum(BackgroundWorker worker, byte k)
         {
             bool found = false;
-            Board finalBoard = null;
+            //Board finalBoard = null;
             Board[] currentBoards = GetRandomBoard(k);
             List<Board>[] neighbors = new List<Board>[k];
             double[] nextHeights = new double[k];
@@ -23,7 +23,7 @@ namespace YapayZekaOdevi2
                 for(byte i = 0; i < k; i++)
                 {
                     neighbors[i] = GetNeighbors(currentBoards[i]);
-                    nextHeights[i] = float.MinValue;
+                    nextHeights[i] = double.MinValue;
                     nextBoards[i] = null;
 
                     foreach (Board b in neighbors[i])
@@ -37,16 +37,42 @@ namespace YapayZekaOdevi2
 
                     if (nextHeights[i] <= currentBoards[i].Height)
                     {
-                        found = true;
-                        finalBoard = currentBoards[i];
+                        if (currentBoards[i].IsFinalBoard())
+                        {
+                            found = true;
+                            //finalBoard = currentBoards[i];
+                        }
                     }
 
-                    currentBoards = nextBoards;
+                    
+                    currentBoards[i] = nextBoards[i];
                 }
                 
             }
 
-            return finalBoard;
+            
+
+            List<Board>[] finalBoardPaths = new List<Board>[k];
+            for (byte i=0;i< k; i++)
+            {
+                finalBoardPaths[i] = currentBoards[i].GetPath();
+            }
+
+            List<List<Board>> finalBoards = new List<List<Board>>();
+
+            for(int i = 0; i < finalBoardPaths[0].Count; i++)
+            {
+                List<Board> row = new List<Board>();
+
+                for(byte j=0;j< k; j++)
+                {
+                    row.Add(finalBoardPaths[j].ElementAt(i));
+                }
+
+                finalBoards.Add(row);
+            }
+
+            return finalBoards;
         }
 
 
@@ -58,18 +84,13 @@ namespace YapayZekaOdevi2
             {
                 byte[] temp = new byte[19] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
 
-                //for (byte j = 0; j < 20; j++)
-                //{
-                //    temp[j] = (byte)random.Next(0, 20);
-                    
-                //}
-
-                retVal[i] = new Board(RandomPermutation(temp).ToArray());
+                retVal[i] = new Board(RandomPermutation(temp).ToArray(), null);
             }
             
             return retVal;
         }
 
+        // Shuffles any suquence.
         public static IEnumerable<T> RandomPermutation<T>(IEnumerable<T> sequence)
         {
             Random random = new Random();
@@ -99,16 +120,16 @@ namespace YapayZekaOdevi2
             {
                 for(j=(byte)(i+1); j < 19; j++)
                 {
-                    retVal.Add(Swap(board.BoardList, i, j));
+                    retVal.Add(Swap(board, i, j));
                 }
             }
 
             return retVal;
         }
 
-        private Board Swap(byte[] BoardList, byte index1, byte index2)
+        private Board Swap(Board board, byte index1, byte index2)
         {
-            Board board2 = new Board(BoardList);
+            Board board2 = new Board(board.BoardList, board);
             byte temp = board2.BoardList[index1];
             board2.BoardList[index1] = board2.BoardList[index2];
             board2.BoardList[index2] = temp;

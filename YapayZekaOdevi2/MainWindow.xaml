@@ -65,6 +65,7 @@
                         Orientation="Horizontal">
                         <ListView
                             Name="listView_steps_row"
+                            ItemsSource="{Binding .}"
                             MinHeight="100">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
