@@ -85,7 +85,8 @@ namespace YapayZekaOdevi2
             {
                 byte[] temp = new byte[19] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
 
-                retVal[i] = new Board(RandomPermutation(temp).ToArray(), null);
+                //retVal[i] = new Board(RandomPermutation(temp).ToArray(), null);
+                retVal[i] = new Board(temp.OrderBy(a => Guid.NewGuid()).ToArray(), null);
             }
             
             return retVal;
@@ -96,8 +97,7 @@ namespace YapayZekaOdevi2
         {
             Random random = new Random();
             T[] retArray = sequence.ToArray();
-
-
+            
             for (int i = 0; i < retArray.Length - 1; i += 1)
             {
                 int swapIndex = random.Next(i, retArray.Length);
@@ -130,7 +130,11 @@ namespace YapayZekaOdevi2
 
         private Board Swap(Board board, byte index1, byte index2)
         {
-            Board board2 = new Board(board.BoardList, board);
+            byte[] temp1 = new byte[board.BoardList.Count()];
+            Array.Copy(board.BoardList, temp1, board.BoardList.Count());
+
+            Board board2 = new Board(temp1, board);
+
             byte temp = board2.BoardList[index1];
             board2.BoardList[index1] = board2.BoardList[index2];
             board2.BoardList[index2] = temp;
