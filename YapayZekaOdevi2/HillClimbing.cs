@@ -37,15 +37,17 @@ namespace YapayZekaOdevi2
 
                     if (nextHeights[i] <= currentBoards[i].Height)
                     {
-                        if (currentBoards[i].IsFinalBoard())
-                        {
+                        //if (currentBoards[i].IsFinalBoard())
+                        //{
                             found = true;
                             //finalBoard = currentBoards[i];
-                        }
+                        //}
                     }
-
+                    else
+                    {
+                        currentBoards[i] = nextBoards[i];
+                    }
                     
-                    currentBoards[i] = nextBoards[i];
                 }
                 
             }
@@ -93,24 +95,24 @@ namespace YapayZekaOdevi2
         }
 
         // Shuffles any suquence.
-        public static IEnumerable<T> RandomPermutation<T>(IEnumerable<T> sequence)
-        {
-            Random random = new Random();
-            T[] retArray = sequence.ToArray();
+        //public static IEnumerable<T> RandomPermutation<T>(IEnumerable<T> sequence)
+        //{
+        //    Random random = new Random();
+        //    T[] retArray = sequence.ToArray();
             
-            for (int i = 0; i < retArray.Length - 1; i += 1)
-            {
-                int swapIndex = random.Next(i, retArray.Length);
-                if (swapIndex != i)
-                {
-                    T temp = retArray[i];
-                    retArray[i] = retArray[swapIndex];
-                    retArray[swapIndex] = temp;
-                }
-            }
+        //    for (int i = 0; i < retArray.Length - 1; i += 1)
+        //    {
+        //        int swapIndex = random.Next(i, retArray.Length);
+        //        if (swapIndex != i)
+        //        {
+        //            T temp = retArray[i];
+        //            retArray[i] = retArray[swapIndex];
+        //            retArray[swapIndex] = temp;
+        //        }
+        //    }
 
-            return retArray;
-        }
+        //    return retArray;
+        //}
 
         public List<Board> GetNeighbors(Board board)
         {
