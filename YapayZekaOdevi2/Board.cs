@@ -46,41 +46,9 @@ namespace YapayZekaOdevi2
             sums[13] = (byte) (BoardList[3] + BoardList[8] + BoardList[13] + BoardList[17]);
             sums[14] = (byte) (BoardList[7] + BoardList[12] + BoardList[16]);
 
-
-            //sums[0] = Sum(new List<byte> { 0, 1, 2 });
-            //sums[1] = Sum(new List<byte> { 3, 4, 5, 6 });
-            //sums[2] = Sum(new List<byte> { 7, 8, 9, 10, 11});
-            //sums[3] = Sum(new List<byte> { 12, 13, 14, 15 });
-            //sums[4] = Sum(new List<byte> { 16, 17, 18 });
-
-            //sums[5] = Sum(new List<byte> { 7, 3, 0 });
-            //sums[6] = Sum(new List<byte> { 12, 8, 4, 1 });
-            //sums[7] = Sum(new List<byte> { 16, 13, 9, 5, 2 });
-            //sums[8] = Sum(new List<byte> { 17, 14, 10, 6 });
-            //sums[9] = Sum(new List<byte> { 18, 15, 11 });
-
-            //sums[10] = Sum(new List<byte> { 2, 6, 11 });
-            //sums[11] = Sum(new List<byte> { 1, 5, 10, 15 });
-            //sums[12] = Sum(new List<byte> { 0, 4, 9, 14, 18 });
-            //sums[13] = Sum(new List<byte> { 3, 8, 13, 17 });
-            //sums[14] = Sum(new List<byte> { 7, 12, 16 });
-
             this.Sums = sums;
         }
-
-        //private byte Sum(List<byte> order)
-        //{
-        //    byte temp = 0;
-
-        //    foreach(byte b in order)
-        //    {
-        //        temp += BoardList[b];
-        //    }
-
-        //    return temp;
-        //}
-
-
+        
         // Returns whether the board is final board.
         private void CalculateIsFinalBoard()
         {
@@ -104,11 +72,13 @@ namespace YapayZekaOdevi2
             //    }
             //}
 
+            if (IsFinalBoard)
+                Console.Write("IsFinalBoard ");
 
             int sumsOK = Sums.Count(i => i == 38);
-            
+
             //retVal = (sumsOK / Sums.Length) - GetNRMSE();
-            retVal = (sumsOK / Sums.Length) /2 + GetFullness()/2;
+            retVal = (sumsOK / Sums.Length + GetFullness()) / 2;
 
             Height = retVal;
         }
