@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YapayZekaOdevi2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Paralel Tepe Tırmanma ile Sayı Yerleştirme" Height="400" Width="600">
 
     <Window.Resources>
         <local:ArrayToHexagonalConverter x:Key="ArrayToHexagonalConverter" />
@@ -31,27 +31,27 @@
             <Label
                 Content="Paralel Tepe Tırmanma ile Sayı Yerleştirme"
                 Grid.Row="0"
-                Grid.Column="0" Canvas.Left="10"/>
+                Grid.Column="0" Canvas.Left="10" FontSize="13.333" FontWeight="Bold" FontStyle="Italic"/>
 
             <TextBox
                 Name="txtBox_k"
-                Width="100" Canvas.Left="41" Canvas.Top="44" Text="10"/>
+                Width="100" Canvas.Left="40" Canvas.Top="44" Text="10"/>
 
             <Label
                 Content="K:"
                 Grid.Row="1"
-                Grid.Column="0" Canvas.Left="6" Canvas.Top="36"/>
-            
+                Grid.Column="0" Canvas.Left="10" Canvas.Top="40"/>
+
             <Button 
                 Name="btn_start"
-                Content="Başla" Canvas.Left="187" Canvas.Top="42" Width="86" Click="btn_start_Click"/>
-            
+                Content="Başla" Canvas.Left="182" Canvas.Top="42" Width="80" Click="btn_start_Click"/>
+
             <Button 
                 Name="btn_cancel"
-                Content="İptal" Click="btn_cancel_Click" Canvas.Left="306" Canvas.Top="42" Width="80" IsEnabled="False"/>
+                Content="İptal" Click="btn_cancel_Click" Canvas.Left="281" Canvas.Top="42" Width="80" IsEnabled="False"/>
 
             <Label 
-                Content="Adımlar:" Canvas.Left="10" Canvas.Top="74"/>
+                Content="Adımlar:" Canvas.Left="10" Canvas.Top="74" FontWeight="Bold" FontStyle="Italic"/>
 
         </Canvas>
 
@@ -68,7 +68,10 @@
 
                         <Label 
                             Name="StepNo"
-                            Content="{Binding StepNo}"/>
+                            Content="{Binding StepNo}" 
+                            FontWeight="Bold"
+                            VerticalAlignment="Center" 
+                            MinWidth="4"/>
 
                         <ListView
                             Name="listView_steps_row"
@@ -76,7 +79,7 @@
                             MinHeight="100">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
+                                    <VirtualizingStackPanel Orientation="Horizontal"/>
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
@@ -88,7 +91,7 @@
                                         <VirtualizingStackPanel
                                             Orientation="Horizontal"
                                             HorizontalAlignment="Center">
-                                                    
+
                                             <Label
                                                 MinWidth="2"
                                                 Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=0}"/>
@@ -100,7 +103,7 @@
                                             <Label
                                                 MinWidth="2"
                                                 Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=2}"/>
-                                            
+
                                         </VirtualizingStackPanel>
 
                                         <VirtualizingStackPanel
@@ -148,7 +151,7 @@
                                             <Label
                                                 MinWidth="2"
                                                 Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=11}"/>
-                                                
+
 
                                         </VirtualizingStackPanel>
 
