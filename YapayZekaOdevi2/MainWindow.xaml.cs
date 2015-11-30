@@ -1,18 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace YapayZekaOdevi2
 {
@@ -34,20 +23,13 @@ namespace YapayZekaOdevi2
 
         private void solverWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            txtBox_k.IsEnabled = true;
+            btn_start.IsEnabled = true;
+            btn_cancel.IsEnabled = false;
+
             List<Row> finalBoards = e.Result as List<Row>;
-
-            if (finalBoards != null)
-            {
-                listView_steps.ItemsSource = finalBoards;
-
-                MessageBox.Show("Result found!");
-            }
-            else
-            {
-                MessageBox.Show("Can not found the result.");
-            }
-
-
+            
+            listView_steps.ItemsSource = finalBoards;
         }
 
         private void solverWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -61,6 +43,11 @@ namespace YapayZekaOdevi2
 
         private void btn_start_Click(object sender, RoutedEventArgs e)
         {
+            txtBox_k.IsEnabled = false;
+            btn_start.IsEnabled = false;
+            btn_cancel.IsEnabled = true;
+            listView_steps.ItemsSource = null;
+
             if (solverWorker.IsBusy != true)
             {
                 if (!String.IsNullOrWhiteSpace(txtBox_k.Text))
@@ -71,10 +58,6 @@ namespace YapayZekaOdevi2
                 {
                     MessageBox.Show("Lütfen K değerini giriniz.");
                 }
-            }
-            else
-            {
-                MessageBox.Show("Solver already working.");
             }
         }
 
