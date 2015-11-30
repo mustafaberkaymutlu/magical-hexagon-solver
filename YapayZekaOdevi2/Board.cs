@@ -93,12 +93,12 @@ namespace YapayZekaOdevi2
 
         private void CalculateHeight()
         {
-            double retVal = 1;
+            double retVal;
 
-            foreach (byte b in BoardList)
-            {
-                retVal *= ((double)b) / 38;
-            }
+            //foreach (byte b in BoardList)
+            //{
+            //    retVal *= ((double)b) / 38;
+            //}
 
             //foreach(byte b in Sums)
             //{
@@ -108,7 +108,51 @@ namespace YapayZekaOdevi2
             //    }
             //}
 
+
+            int sumsOK = 0;
+            foreach(byte b in Sums)
+            {
+                if(b == 38)
+                {
+                    sumsOK++;
+                }
+                
+            }
+
+            //retVal = (sumsOK / Sums.Length) - GetNRMSE();
+            retVal = (sumsOK / Sums.Length) /2 + GetFullness()/2;
+
             Height = retVal;
+        }
+
+        // Calculates the Normalized Root Mean Square Error (NRMSE)
+        private double GetNRMSE()
+        {
+            double sum = 0;
+            double rmse = 0;
+            double nrmse;
+
+            foreach(byte b in Sums)
+                sum += Math.Pow(b - 38, 2);
+
+            rmse = Math.Sqrt(sum / Sums.Length);
+            nrmse = rmse / (Sums.Max() - Sums.Min());
+            return nrmse;
+        }
+
+        private double GetWeirdError()
+        {
+            double sum = 0;
+
+            foreach (byte b in Sums)
+                sum += Math.Abs(b - 38);
+
+            return (sum / Sums.Length);
+        }
+
+        private double GetFullness()
+        {
+            return (38 - GetWeirdError()) / 38;
         }
 
         // Returns the board's path from the beginning. This is required to display step-by-step progress in the UI.
