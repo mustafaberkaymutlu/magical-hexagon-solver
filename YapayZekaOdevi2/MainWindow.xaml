@@ -8,25 +8,8 @@
         Title="MainWindow" Height="350" Width="525">
 
     <Window.Resources>
-        <local:ArrayToDataGridConverter x:Key="ArrayToDataGridConverter" />
         <local:ArrayToHexagonalConverter x:Key="ArrayToHexagonalConverter" />
-
-        
-        <DataTemplate x:Key="DataTemplate_Level1">
-            <ItemsControl ItemsSource="{Binding}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Label Content="{Binding}" Padding="2,2,2,2" Margin="2,2,2,2"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
-
+        <local:FinalBoardColorConverter x:Key="FinalBoardColorConverter" />
     </Window.Resources>
 
 
@@ -65,7 +48,7 @@
             
             <Button 
                 Name="btn_cancel"
-                Content="İptal" Click="btn_cancel_Click" Canvas.Left="306" Canvas.Top="42" Width="80"/>
+                Content="İptal" Click="btn_cancel_Click" Canvas.Left="306" Canvas.Top="42" Width="80" IsEnabled="False"/>
 
             <Label 
                 Content="Adımlar:" Canvas.Left="10" Canvas.Top="74"/>
@@ -76,10 +59,11 @@
             Name="listView_steps"
             Grid.Row="1"
             Grid.Column="0"
-            Margin="10,0,10,0">
+            Margin="10,0,10,0"
+            Focusable="false">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel
+                    <VirtualizingStackPanel
                         Orientation="Horizontal">
 
                         <Label 
@@ -97,20 +81,120 @@
                             </ListView.ItemsPanel>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
+                                    <VirtualizingStackPanel
+                                        Orientation="Vertical"
+                                        Background="{Binding ., Converter={StaticResource FinalBoardColorConverter}}">
 
-                                        <TextBlock 
-                                            Text="{Binding kNo, StringFormat='K #{0:0,0}:'}"
-                                            Padding="10,10,0,0"/>
+                                        <VirtualizingStackPanel
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+                                                    
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=0}"/>
 
-                                        <Grid>
-                                            <ItemsControl 
-                                                x:Name="lst" 
-                                                ItemsSource="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}}"
-                                                ItemTemplate="{DynamicResource DataTemplate_Level1}"/>
-                                        </Grid>
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=1}"/>
 
-                                    </StackPanel>
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=2}"/>
+                                            
+                                        </VirtualizingStackPanel>
+
+                                        <VirtualizingStackPanel
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=3}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=4}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=5}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=6}"/>
+
+                                        </VirtualizingStackPanel>
+
+                                        <VirtualizingStackPanel
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=7}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=8}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=9}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=10}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=11}"/>
+                                                
+
+                                        </VirtualizingStackPanel>
+
+                                        <VirtualizingStackPanel
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=12}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=13}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=14}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=15}"/>
+
+                                        </VirtualizingStackPanel>
+
+                                        <VirtualizingStackPanel
+                                            Orientation="Horizontal"
+                                            HorizontalAlignment="Center">
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=16}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=17}"/>
+
+                                            <Label
+                                                MinWidth="2"
+                                                Content="{Binding ., Converter={StaticResource ArrayToHexagonalConverter}, ConverterParameter=18}"/>
+
+                                        </VirtualizingStackPanel>
+
+
+
+                                    </VirtualizingStackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -123,7 +207,7 @@
                             Name="best"
                             Content="{Binding Best}"/>
 
-                    </StackPanel>
+                    </VirtualizingStackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
 
