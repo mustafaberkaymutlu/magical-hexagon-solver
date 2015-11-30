@@ -7,33 +7,30 @@ namespace YapayZekaOdevi2
 {
     public class HillClimbing
     {
-        //private List<String> processedBoards = new List<String>(); // List that keeps each of the processed Board's BoardCode. 
-        
+
         public List<Row> FindLocalMaximum(BackgroundWorker worker, byte k)
         {
             bool found = false;
             Board[] currentBoards = GetRandomBoard(k);
             Board[] finalBoards = null;
+            List<String> processedBoards = new List<string>(); // List that keeps all processed Boards from previous iteration. 
 
             while (!found && !worker.CancellationPending)
             {
                 for(byte i = 0; i < k; i++)
                 {
-                    if (currentBoards[i].IsFinalBoard())
+                    if (currentBoards[i].IsFinalBoard)
                     {
                         found = true;
                         finalBoards = currentBoards;
                     }
                     else
                     {
-                        currentBoards[i] = GetHighestNeighbor(currentBoards[i]);
+                        processedBoards.Add(currentBoards[i].BoardCode);
+                        currentBoards[i] = GetHighestNeighbor(currentBoards[i], processedBoards);
                     }
-
-                    Console.Out.Write(currentBoards[i].Height + " ");
                     
                 }
-
-                Console.Out.WriteLine();
                 
             }
 
@@ -52,6 +49,14 @@ namespace YapayZekaOdevi2
             {
                 finalBoardPaths[i] = currentBoards[i].GetPath();
             }
+
+            foreach(List<Board> ff in finalBoardPaths)
+            {
+                if (!ff[ff.Count - 1].IsFinalBoard)
+                {
+                    ff.RemoveAt(ff.Count - 1);
+                }
+            }
             
             for (int i = 0; i < finalBoardPaths[0].Count; i++)
             {
@@ -69,13 +74,25 @@ namespace YapayZekaOdevi2
             return finalBoards;
         }
 
-        private Board GetHighestNeighbor(Board board)
+        private Board GetHighestNeighbor(Board currentBoard, List<String> processedBoards)
         {
-            List<Board> neighbors = GetNeighbors(board);
+            bool found = false;
+            double maxHeight;
+            Board highestNeighbor;
+            List<Board> neighbors = GetNeighbors(currentBoard);
 
-            double maxHeight = neighbors.Max(a => a.Height);
-            Board highestNeighbor = neighbors.First(a => a.Height == maxHeight);
+            do
+            {
+                maxHeight = neighbors.Max(a => a.Height);
+                highestNeighbor = neighbors.First(a => a.Height == maxHeight);
 
+                if(processedBoards.Any(a => a.Equals(highestNeighbor.BoardCode)))
+                    neighbors.Remove(highestNeighbor);
+                else
+                    found = true;
+
+            } while (!found);
+            
             return highestNeighbor;
         }
 
@@ -103,25 +120,23 @@ namespace YapayZekaOdevi2
             {
                 for(j=(byte)(i+1); j < 19; j++)
                 {
-                    retVal.Add(Swap(board, i, j));
+                    retVal.Add(GenerateBoard(board, i, j));
                 }
             }
 
             return retVal;
         }
 
-        private Board Swap(Board board, byte index1, byte index2)
+        private Board GenerateBoard(Board board, byte index1, byte index2)
         {
             byte[] temp1 = new byte[board.BoardList.Count()];
             Array.Copy(board.BoardList, temp1, board.BoardList.Count());
+            
+            byte temp = temp1[index1];
+            temp1[index1] = temp1[index2];
+            temp1[index2] = temp;
 
-            Board board2 = new Board(temp1, board);
-
-            byte temp = board2.BoardList[index1];
-            board2.BoardList[index1] = board2.BoardList[index2];
-            board2.BoardList[index2] = temp;
-
-            return board2;
+            return new Board(temp1, board);
         }
 
     }

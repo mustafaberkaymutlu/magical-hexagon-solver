@@ -9,23 +9,20 @@ namespace YapayZekaOdevi2
         public byte[] BoardList { get; set; }
         public byte[] Sums;
         public double Height;
+        public bool IsFinalBoard;
         private Board ParentBoard; // This is used to keep board's path. So that we can track back to the first board status.
 
         public Board(byte[] boardList, Board parent)
         {
             this.BoardList = boardList;
+            this.BoardCode = String.Join("*", BoardList);
             this.ParentBoard = parent;
             CalculateSums();
+            CalculateIsFinalBoard();
             CalculateHeight();
         }
 
-        public String BoardCode // Unique board code (e.g "1*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19"). This is used to hold processed boards in a seperate List<String>.
-        {
-            get
-            {
-                return String.Join("*", BoardList);
-            }
-        }
+        public String BoardCode { get; set; } // Unique board code (e.g "1*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19"). This is used to hold processed boards in a seperate List<String>.
 
         private void CalculateSums()
         {
@@ -85,10 +82,9 @@ namespace YapayZekaOdevi2
 
 
         // Returns whether the board is final board.
-        public bool IsFinalBoard()
+        private void CalculateIsFinalBoard()
         {
-            if (Sums.Any(o => o != Sums[0])) return false;
-            else return true;
+            IsFinalBoard = !(Sums.Any(o => o != Sums[0]));
         }
 
         private void CalculateHeight()
@@ -109,16 +105,8 @@ namespace YapayZekaOdevi2
             //}
 
 
-            int sumsOK = 0;
-            foreach(byte b in Sums)
-            {
-                if(b == 38)
-                {
-                    sumsOK++;
-                }
-                
-            }
-
+            int sumsOK = Sums.Count(i => i == 38);
+            
             //retVal = (sumsOK / Sums.Length) - GetNRMSE();
             retVal = (sumsOK / Sums.Length) /2 + GetFullness()/2;
 

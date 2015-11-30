@@ -1,7 +1,6 @@
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\bin\Debug\YapayZekaOdevi2.exe.config
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\bin\Debug\YapayZekaOdevi2.exe
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\bin\Debug\YapayZekaOdevi2.pdb
-C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\YapayZekaOdevi2.csprojResolveAssemblyReference.cache
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\MainWindow.g.cs
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\App.g.cs
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\GeneratedInternalTypeHelper.g.cs
@@ -13,3 +12,4 @@ C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\YapayZekaOdevi2.csproj.GenerateResource.Cache
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\YapayZekaOdevi2.exe
 C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\YapayZekaOdevi2.pdb
+C:\Users\mberk\Visual Studio Projects\YapayZekaOdevi2\YapayZekaOdevi2\obj\Debug\YapayZekaOdevi2.csprojResolveAssemblyReference.cache
