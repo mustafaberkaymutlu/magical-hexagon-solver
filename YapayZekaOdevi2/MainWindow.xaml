@@ -326,13 +326,31 @@
                             </ListView.ItemTemplate>
                         </ListView>
 
-                        <Label 
-                            Name="average"
-                            Content="{Binding Average}"/>
+                        <VirtualizingStackPanel
+                            Orientation="Horizontal">
 
-                        <Label 
+                            <Label
+                                Content="Average: "/>
+
+                            <Label 
+                                Name="average"
+                                Content="{Binding AverageString}"/>
+
+                        </VirtualizingStackPanel>
+
+                        <VirtualizingStackPanel
+                            Orientation="Horizontal">
+
+                            <Label
+                                Content="Best: "/>
+
+                            <Label 
                             Name="best"
-                            Content="{Binding Best}"/>
+                            Content="{Binding BestString}"/>
+
+                        </VirtualizingStackPanel>
+
+                        
 
                     </VirtualizingStackPanel>
                 </DataTemplate>
