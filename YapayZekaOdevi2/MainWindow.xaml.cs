@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using YapayZekaOdevi2.Models;
 
 namespace YapayZekaOdevi2
 {
@@ -11,6 +12,7 @@ namespace YapayZekaOdevi2
     public partial class MainWindow : Window
     {
         private BackgroundWorker solverWorker = new BackgroundWorker();
+        private ElapsedTimer elapsedTimer = new ElapsedTimer();
 
         public MainWindow()
         {
@@ -19,6 +21,8 @@ namespace YapayZekaOdevi2
             solverWorker.WorkerSupportsCancellation = true;
             solverWorker.DoWork += new DoWorkEventHandler(solverWorker_DoWork);
             solverWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(solverWorker_RunWorkerCompleted);
+            
+            label_elapsedTimer.DataContext = elapsedTimer;
         }
 
         private void solverWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -28,6 +32,8 @@ namespace YapayZekaOdevi2
             txtBox_k.IsEnabled = true;
             btn_start.IsEnabled = true;
             btn_cancel.IsEnabled = false;
+
+            elapsedTimer.StopTimer();
 
             label_working.Content = "No";
             
@@ -71,6 +77,7 @@ namespace YapayZekaOdevi2
                 if (!String.IsNullOrWhiteSpace(txtBox_k.Text))
                 {
                     solverWorker.RunWorkerAsync(ushort.Parse(txtBox_k.Text));
+                    elapsedTimer.StartTimer();
                 }
                 else
                 {
