@@ -71,13 +71,14 @@ namespace YapayZekaOdevi2
             
             for (int i = 0; i < finalBoardPaths[0].Count; i++)
             {
-                Row row = new Row();
-                row.StepNo = i + 1;
+                List<Board> temp = new List<Board>();
 
-                for (byte j = 0; j < k; j++)
+                for (ushort j = 0; j < k; j++)
                 {
-                    row.RowElements.Add(finalBoardPaths[j].ElementAt(i));
+                    temp.Add(finalBoardPaths[j].ElementAt(i));
                 }
+
+                Row row = new Row(temp, i + 1);
 
                 finalBoards.Add(row);
             }
