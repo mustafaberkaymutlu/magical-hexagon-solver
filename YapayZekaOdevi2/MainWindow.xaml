@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YapayZekaOdevi2"
         mc:Ignorable="d"
-        Title="Paralel Tepe Tırmanma ile Sayı Yerleştirme" Height="400" Width="600">
+        Title="Number Placement via Parallel Hill Climbing" Height="500" Width="600" MinHeight="500" MinWidth="600">
 
     <Window.Resources>
         <local:ArrayToHexagonalConverter x:Key="ArrayToHexagonalConverter" />
@@ -26,32 +26,121 @@
         <Canvas
             Grid.Row="0"
             Grid.Column="0"
-            Height="100">
+            Height="180">
 
             <Label
-                Content="Paralel Tepe Tırmanma ile Sayı Yerleştirme"
+                Content="Number Placement via Parallel Hill Climbing"
                 Grid.Row="0"
-                Grid.Column="0" Canvas.Left="10" FontSize="13.333" FontWeight="Bold" FontStyle="Italic"/>
-
-            <TextBox
-                Name="txtBox_k"
-                Width="100" Canvas.Left="40" Canvas.Top="44" Text="10"/>
-
-            <Label
-                Content="K:"
-                Grid.Row="1"
-                Grid.Column="0" Canvas.Left="10" Canvas.Top="40"/>
-
-            <Button 
-                Name="btn_start"
-                Content="Başla" Canvas.Left="182" Canvas.Top="42" Width="80" Click="btn_start_Click"/>
-
-            <Button 
-                Name="btn_cancel"
-                Content="İptal" Click="btn_cancel_Click" Canvas.Left="281" Canvas.Top="42" Width="80" IsEnabled="False"/>
+                Grid.Column="0" 
+                Canvas.Left="10" 
+                FontSize="13.333" 
+                FontWeight="Bold" 
+                FontStyle="Italic"/>
 
             <Label 
-                Content="Adımlar:" Canvas.Left="10" Canvas.Top="74" FontWeight="Bold" FontStyle="Italic"/>
+                Content="Steps:" 
+                Canvas.Left="10" 
+                Canvas.Top="144" 
+                FontWeight="Bold" 
+                FontStyle="Italic"/>
+
+            <Border 
+                BorderBrush="Black" 
+                BorderThickness="1" 
+                Height="106" 
+                Canvas.Left="10" 
+                Canvas.Top="33" 
+                Width="245" 
+                HorizontalAlignment="Stretch">
+
+                <Canvas>
+                    <TextBox
+                        Name="txtBox_k"
+                        Width="135" 
+                        Canvas.Left="40"
+                        Canvas.Top="10" 
+                        Text="10"/>
+
+                    <Label
+                        Content="K:"
+                        Grid.Row="1"
+                        Grid.Column="0" 
+                        Canvas.Left="10" 
+                        Canvas.Top="6"/>
+
+                    <Button 
+                        Name="btn_start"
+                        Content="Start" 
+                        Canvas.Left="8" 
+                        Canvas.Top="54" 
+                        Width="110" 
+                        Click="btn_start_Click"/>
+
+                    <Button 
+                        Name="btn_cancel"
+                        Content="Cancel" 
+                        Click="btn_cancel_Click" 
+                        Canvas.Left="123" 
+                        Canvas.Top="54" 
+                        Width="110" 
+                        IsEnabled="False"/>
+
+                </Canvas>
+
+            </Border>
+
+            <Border 
+                BorderBrush="Black" 
+                BorderThickness="1" 
+                Height="106" 
+                Canvas.Left="269" 
+                Canvas.Top="33" 
+                Width="303">
+
+                <Canvas>
+
+                    <Label
+                        Content="Working:"
+                        FontWeight="Bold" 
+                        Canvas.Top="10" 
+                        Canvas.Left="10"/>
+
+                    <Label
+                        Name="label_working"
+                        Content="No" 
+                        Canvas.Left="157" 
+                        Canvas.Top="10"/>
+
+                    <Label
+                        Content="Found the Solution:"
+                        FontWeight="Bold" 
+                        Canvas.Top="41" 
+                        Canvas.Left="10"/>
+
+                    <Label
+                        Name="label_foundSolution"
+                        Content="N/A" 
+                        Canvas.Left="157" 
+                        Canvas.Top="41"/>
+
+                    <Label
+                        Content="Cancelled:"
+                        FontWeight="Bold" 
+                        Canvas.Top="72" 
+                        Canvas.Left="10"/>
+
+                    <Label
+                        Name="label_cancelled"
+                        Content="N/A" 
+                        Canvas.Left="157" 
+                        Canvas.Top="72"/>
+
+
+                </Canvas>
+
+            </Border>
+
+
 
         </Canvas>
 
@@ -59,7 +148,7 @@
             Name="listView_steps"
             Grid.Row="1"
             Grid.Column="0"
-            Margin="10,0,10,0"
+            Margin="10,0,10,10"
             Focusable="false">
             <ListView.ItemTemplate>
                 <DataTemplate>
