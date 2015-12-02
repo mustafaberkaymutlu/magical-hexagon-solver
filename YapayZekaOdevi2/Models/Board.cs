@@ -14,15 +14,13 @@ namespace YapayZekaOdevi2
 
         public Board(byte[] boardList, Board parent)
         {
-            this.BoardList = boardList;
-            this.BoardCode = String.Join("*", BoardList);
-            this.ParentBoard = parent;
+            BoardList = boardList;
+            ParentBoard = parent;
+
             CalculateSums();
             CalculateIsFinalBoard();
             CalculateHeight();
         }
-
-        public String BoardCode { get; set; } // Unique board code (e.g "1*2*3*4*5*6*7*8*9*10*11*12*13*14*15*16*17*18*19"). This is used to hold processed boards in a seperate List<String>.
 
         private void CalculateSums()
         {

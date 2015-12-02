@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YapayZekaOdevi2"
         mc:Ignorable="d"
-        Title="Number Placement via Parallel Hill Climbing" Height="500" Width="600" MinHeight="500" MinWidth="600">
+        Title="Number Placement via Parallel Hill Climbing" Height="500" Width="605" MinHeight="500" MinWidth="600">
 
     <Window.Resources>
         <local:ArrayToHexagonalConverter x:Key="ArrayToHexagonalConverter" />
@@ -136,7 +136,7 @@
                         Canvas.Top="72"/>
 
                     <Label
-                        Content="Found Iteraion #:"
+                        Content="Found Iteration #:"
                         FontWeight="Bold" 
                         Canvas.Top="10" 
                         Canvas.Left="148"/>

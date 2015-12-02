@@ -15,10 +15,7 @@ namespace YapayZekaOdevi2
         private BackgroundWorker testWorker = new BackgroundWorker();
         private ElapsedTimer elapsedTimer = new ElapsedTimer();
 
-        private const int TEST_MEASUREMENT_COUNT = 100;
-        private const bool TEST_MEASUREMENT_ACTIVE = true;
-
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -37,8 +34,8 @@ namespace YapayZekaOdevi2
         {
             SmallResult result = e.Result as SmallResult;
             
-            Console.WriteLine("Ortalama iterasyon sayisi: {0:N}", result.iterationCount / TEST_MEASUREMENT_COUNT);
-            Console.WriteLine("Bulma yuzdesi {0:N}", result.foundCount / TEST_MEASUREMENT_COUNT);
+            Console.WriteLine("Ortalama iterasyon sayisi: {0:N}", result.iterationCount / Config.TEST_MEASUREMENT_COUNT);
+            Console.WriteLine("Bulma yuzdesi {0:N}", result.foundCount / Config.TEST_MEASUREMENT_COUNT);
 
             label_working.Content = "No";
             txtBox_k.IsEnabled = true;
@@ -52,12 +49,12 @@ namespace YapayZekaOdevi2
             HillClimbing hillClimbing = new HillClimbing();
             uint iterationCount = 0;
             uint foundCount = 0;
-            for (int i = 0; i < TEST_MEASUREMENT_COUNT; i++)
+            for (int i = 0; i < Config.TEST_MEASUREMENT_COUNT; i++)
             {
                 Console.WriteLine("{0:N}. deneme yapiliyor..", i);
                 Result result = hillClimbing.FindLocalMaximum(worker, (ushort)e.Argument);
                 iterationCount += result.foundIterationNumber;
-                if (!result.isCancelled)
+                if (!result.solverIsCancelled)
                     foundCount++;
             }
 
@@ -76,17 +73,26 @@ namespace YapayZekaOdevi2
 
             label_working.Content = "No";
 
-            if (result.isCancelled)
+            if (result.solverIsCancelled)
             {
-                label_foundSolution.Content = "No";
                 label_cancelled.Content = "Yes";
             }
             else
             {
-                label_foundSolution.Content = "Yes";
                 label_cancelled.Content = "No";
+            }
+
+            if (result.solutionIsFound)
+            {
+                label_foundSolution.Content = "Yes";
                 label_foundIterationNumber.Content = result.foundIterationNumber.ToString();
                 label_foundKNumber.Content = result.foundKNumber.ToString();
+            }
+            else
+            {
+                label_foundSolution.Content = "No";
+                label_foundIterationNumber.Content = "N/A";
+                label_foundKNumber.Content = "N/A";
             }
 
             listView_steps.ItemsSource = result.rows;
@@ -103,7 +109,7 @@ namespace YapayZekaOdevi2
 
         private void btn_start_Click(object sender, RoutedEventArgs e)
         {
-            if (TEST_MEASUREMENT_ACTIVE)
+            if (Config.TEST_MEASUREMENT_ACTIVE)
             {
                 label_working.Content = "TEST";
                 txtBox_k.IsEnabled = false;
