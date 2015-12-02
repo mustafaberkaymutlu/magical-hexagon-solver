@@ -67,6 +67,7 @@
     <Compile Include="Models\Board.cs" />
     <Compile Include="Converters\FinalBoardColorConverter.cs" />
     <Compile Include="HillClimbing.cs" />
+    <Compile Include="Models\ElapsedTimer.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Row.cs" />
     <Compile Include="MainWindow.xaml.cs">

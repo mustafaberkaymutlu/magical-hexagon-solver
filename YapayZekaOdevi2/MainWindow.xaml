@@ -95,7 +95,7 @@
                 Height="106" 
                 Canvas.Left="260" 
                 Canvas.Top="33" 
-                Width="312">
+                Width="320">
 
                 <Canvas>
 
@@ -108,7 +108,7 @@
                     <Label
                         Name="label_working"
                         Content="No" 
-                        Canvas.Left="115" 
+                        Canvas.Left="110" 
                         Canvas.Top="10"/>
 
                     <Label
@@ -120,7 +120,7 @@
                     <Label
                         Name="label_foundSolution"
                         Content="N/A" 
-                        Canvas.Left="115" 
+                        Canvas.Left="110" 
                         Canvas.Top="41"/>
 
                     <Label
@@ -132,33 +132,44 @@
                     <Label
                         Name="label_cancelled"
                         Content="N/A" 
-                        Canvas.Left="115" 
+                        Canvas.Left="110" 
                         Canvas.Top="72"/>
 
                     <Label
                         Content="Found Iteraion #:"
                         FontWeight="Bold" 
                         Canvas.Top="10" 
-                        Canvas.Left="157"/>
+                        Canvas.Left="148"/>
 
                     <Label
                         Name="label_foundIterationNumber"
                         Content="N/A" 
-                        Canvas.Left="269" 
+                        Canvas.Left="260" 
                         Canvas.Top="10"/>
 
                     <Label
                         Content="Found K #:"
                         FontWeight="Bold" 
                         Canvas.Top="41" 
-                        Canvas.Left="157"/>
+                        Canvas.Left="148"/>
 
                     <Label
                         Name="label_foundKNumber"
                         Content="N/A" 
-                        Canvas.Left="269" 
+                        Canvas.Left="260" 
                         Canvas.Top="41"/>
 
+                    <Label
+                        Content="Elapsed Time:"
+                        FontWeight="Bold" 
+                        Canvas.Top="72" 
+                        Canvas.Left="148"/>
+
+                    <Label
+                        Name="label_elapsedTimer"
+                        Content="{Binding TimeElapsed}" 
+                        Canvas.Left="260" 
+                        Canvas.Top="72"/>
 
                 </Canvas>
 
