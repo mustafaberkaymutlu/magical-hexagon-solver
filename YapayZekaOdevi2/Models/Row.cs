@@ -8,7 +8,8 @@ namespace YapayZekaOdevi2
 
         public int StepNo { get; set; }
 
-        public double Average {
+        public double Average
+        {
             get
             {
                 double retVal = 0;
@@ -17,23 +18,41 @@ namespace YapayZekaOdevi2
                     retVal += b.Height;
                 }
 
-                return retVal/RowElements.Count;
+                retVal /= RowElements.Count;
+
+                return retVal;
             }
         }
 
-        public double Best {
+        public double Best
+        {
             get
             {
                 double retVal = double.MinValue;
-                foreach(Board b in RowElements)
+                foreach (Board b in RowElements)
                 {
-                    if(b.Height > retVal)
+                    if (b.Height > retVal)
                     {
                         retVal = b.Height;
                     }
                 }
 
                 return retVal;
+            }
+        }
+
+        public string AverageString
+        {
+            get
+            {
+                return string.Format("{0:0.000}", Average);
+            }
+        }
+
+        public string BestString {
+            get
+            {
+                return string.Format("{0:0.000}", Best);
             }
         }
         

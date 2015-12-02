@@ -59,22 +59,6 @@ namespace YapayZekaOdevi2
         {
             double retVal;
 
-            //foreach (byte b in BoardList)
-            //{
-            //    retVal *= ((double)b) / 38;
-            //}
-
-            //foreach(byte b in Sums)
-            //{
-            //    if(b == 38)
-            //    {
-            //        retVal++;
-            //    }
-            //}
-
-            if (IsFinalBoard)
-                Console.Write("IsFinalBoard ");
-
             int sumsOK = Sums.Count(i => i == 38);
 
             //retVal = (sumsOK / Sums.Length) - GetNRMSE();
@@ -98,7 +82,7 @@ namespace YapayZekaOdevi2
             return nrmse;
         }
 
-        private double GetWeirdError()
+        private double GetMeanError()
         {
             double sum = 0;
 
@@ -110,7 +94,7 @@ namespace YapayZekaOdevi2
 
         private double GetFullness()
         {
-            return (38 - GetWeirdError()) / 38;
+            return (38 - GetMeanError()) / 38;
         }
 
         // Returns the board's path from the beginning. This is required to display step-by-step progress in the UI.
