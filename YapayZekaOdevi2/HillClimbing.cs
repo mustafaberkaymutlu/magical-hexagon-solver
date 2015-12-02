@@ -8,12 +8,13 @@ namespace YapayZekaOdevi2
     public class HillClimbing
     {
 
-        public List<Row> FindLocalMaximum(BackgroundWorker worker, ushort k, out bool isCancelled)
+        public Result FindLocalMaximum(BackgroundWorker worker, ushort k)
         {
             bool found = false;
             Board[] currentBoards = GetRandomBoard(k);
             Board[] finalBoards = null;
             List<String> processedBoards = new List<string>(); // List that keeps all processed Boards from previous iteration. 
+            ushort foundKNumber = 0;
 
             while (!found && !worker.CancellationPending)
             {
@@ -22,6 +23,7 @@ namespace YapayZekaOdevi2
                     if (currentBoards[i].IsFinalBoard)
                     {
                         found = true;
+                        foundKNumber = (ushort) (i + 1);
                         finalBoards = currentBoards;
                     }
                     else
@@ -34,18 +36,19 @@ namespace YapayZekaOdevi2
                 
             }
 
-            
+
 
             if (found)
             {
-                isCancelled = false;
-                return FormatFinalBoards(finalBoards, k);
+                List<Row> rows = FormatFinalBoards(finalBoards, k);
+                return new Result(rows, !found, ((uint)rows.Count), foundKNumber);
             }
-            else
-            {
-                isCancelled = true;
-                return FormatFinalBoards(currentBoards, k);
+            else {
+                List<Row> rows = FormatFinalBoards(currentBoards, k);
+                return new Result(rows, !found, ((uint)rows.Count), foundKNumber);
             }
+
+
         }
 
         private List<Row> FormatFinalBoards(Board[] currentBoards, ushort k)

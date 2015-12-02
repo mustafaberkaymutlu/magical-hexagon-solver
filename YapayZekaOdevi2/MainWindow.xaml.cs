@@ -40,6 +40,8 @@ namespace YapayZekaOdevi2
             {
                 label_foundSolution.Content = "Yes";
                 label_cancelled.Content = "No";
+                label_foundIterationNumber.Content = result.foundIterationNumber.ToString();
+                label_foundKNumber.Content = result.foundKNumber.ToString();
             }
             
             listView_steps.ItemsSource = result.rows;
@@ -49,10 +51,9 @@ namespace YapayZekaOdevi2
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             HillClimbing hillClimbing = new HillClimbing();
-            bool isCancelled = false;
-            List<Row> finalBoards = hillClimbing.FindLocalMaximum(worker, (ushort)e.Argument, out isCancelled);
+            Result result = hillClimbing.FindLocalMaximum(worker, (ushort)e.Argument);
 
-            e.Result = new Result(finalBoards, isCancelled);
+            e.Result = result;
         }
 
         private void btn_start_Click(object sender, RoutedEventArgs e)
