@@ -8,7 +8,7 @@ namespace YapayZekaOdevi2.Models
     public class ElapsedTimer : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public string TimeElapsed { get; set; }
+        public string TimeElapsed { get; set; } = "N/A";
 
         private DispatcherTimer timer;
         private Stopwatch stopWatch;

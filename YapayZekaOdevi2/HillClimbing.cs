@@ -10,38 +10,59 @@ namespace YapayZekaOdevi2
 
         public Result FindLocalMaximum(BackgroundWorker worker, ushort k)
         {
-            bool found = false;
+            bool solutionIsFound = false;
+            bool quit = false;
             Board[] currentBoards = GetRandomBoard(k);
-            Board[] finalBoards = null;
-            List<String> processedBoards = new List<string>(); // List that keeps all processed Boards from previous iteration. 
+            Board[] foundBoards = null;
+            LinkedList<Board>[] processedBoards = new LinkedList<Board>[k];
             ushort foundKNumber = 0;
+            ushort iterationCount = 0;
 
-            while (!found && !worker.CancellationPending)
+            for(int i = 0; i < k; i++)
+            {
+                processedBoards[i] = new LinkedList<Board>();
+            }
+
+            while (!quit && !worker.CancellationPending)
             {
                 for(ushort i = 0; i < k; i++)
                 {
                     if (currentBoards[i].IsFinalBoard)
                     {
-                        found = true;
+                        quit = true;
+                        solutionIsFound = true;
                         foundKNumber = (ushort) (i + 1);
-                        finalBoards = currentBoards;
+                        foundBoards = currentBoards;
                     }
                     else
                     {
-                        processedBoards.Add(currentBoards[i].BoardCode);
-                        currentBoards[i] = GetHighestNeighbor(currentBoards[i], processedBoards);
+                        processedBoards[i].AddLast(currentBoards[i]);
+                        currentBoards[i] = GetHighestNeighbor(currentBoards[i], processedBoards[i]);
                     }
+
+                    if(processedBoards[i].Count() > Config.SETTING_DO_NOT_TURN_BACK_UNTIL_ITERATION_COUNT)
+                    {
+                        processedBoards[i].RemoveFirst();
+                    }
+                }
+
+                iterationCount++;
+
+                if(iterationCount > Config.SETTING_QUIT_WHEN_ITERATION_COUNT)
+                {
+                    quit = true;
+                    solutionIsFound = false;
                 }
             }
             
-            if (found)
+            if (solutionIsFound)
             {
-                List<Row> rows = FormatFinalBoards(finalBoards, k);
-                return new Result(rows, !found, ((uint)rows.Count), foundKNumber);
+                List<Row> rows = FormatFinalBoards(foundBoards, k);
+                return new Result(rows, worker.CancellationPending, solutionIsFound, ((uint)rows.Count), foundKNumber);
             }
             else {
                 List<Row> rows = FormatFinalBoards(currentBoards, k);
-                return new Result(rows, !found, ((uint)rows.Count), foundKNumber);
+                return new Result(rows, worker.CancellationPending, solutionIsFound, ((uint)rows.Count), foundKNumber);
             }
         }
 
@@ -80,7 +101,7 @@ namespace YapayZekaOdevi2
             return finalBoards;
         }
 
-        private Board GetHighestNeighbor(Board currentBoard, List<String> processedBoards)
+        private Board GetHighestNeighbor(Board currentBoard, LinkedList<Board> processedBoards)
         {
             bool found = false;
             double maxHeight;
@@ -92,17 +113,16 @@ namespace YapayZekaOdevi2
                 maxHeight = neighbors.Max(a => a.Height);
                 highestNeighbor = neighbors.First(a => a.Height == maxHeight);
 
-                if(processedBoards.Any(a => a.Equals(highestNeighbor.BoardCode)))
+                if(processedBoards.Any(j => j.BoardList.SequenceEqual(highestNeighbor.BoardList)))
                     neighbors.Remove(highestNeighbor);
                 else
                     found = true;
 
             } while (!found && neighbors.Count > 0);
 
-            if (found)
-                return highestNeighbor;
-            else
-                return null;
+            // If you chose Config.SETTING_DO_NOT_TURN_BACK_UNTIL_ITERATION_COUNT higher than the count of 
+            // all neighbors a board can have, than GetHighestNeighbor(..) may fail.
+            return highestNeighbor;
         }
         
         private Board[] GetRandomBoard(ushort howMany)
