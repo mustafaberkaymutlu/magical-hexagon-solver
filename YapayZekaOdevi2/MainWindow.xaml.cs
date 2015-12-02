@@ -23,22 +23,36 @@ namespace YapayZekaOdevi2
 
         private void solverWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            Result result = e.Result as Result;
+
             txtBox_k.IsEnabled = true;
             btn_start.IsEnabled = true;
             btn_cancel.IsEnabled = false;
 
-            List<Row> finalBoards = e.Result as List<Row>;
+            label_working.Content = "No";
             
-            listView_steps.ItemsSource = finalBoards;
+            if (result.isCancelled)
+            {
+                label_foundSolution.Content = "No";
+                label_cancelled.Content = "Yes";
+            }
+            else
+            {
+                label_foundSolution.Content = "Yes";
+                label_cancelled.Content = "No";
+            }
+            
+            listView_steps.ItemsSource = result.rows;
         }
 
         private void solverWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             HillClimbing hillClimbing = new HillClimbing();
-            List<Row> finalBoards = hillClimbing.FindLocalMaximum(worker, (byte)e.Argument);
+            bool isCancelled = false;
+            List<Row> finalBoards = hillClimbing.FindLocalMaximum(worker, (ushort)e.Argument, out isCancelled);
 
-            e.Result = finalBoards;
+            e.Result = new Result(finalBoards, isCancelled);
         }
 
         private void btn_start_Click(object sender, RoutedEventArgs e)
@@ -47,16 +61,19 @@ namespace YapayZekaOdevi2
             btn_start.IsEnabled = false;
             btn_cancel.IsEnabled = true;
             listView_steps.ItemsSource = null;
+            label_working.Content = "Yes";
+            label_cancelled.Content = "N/A";
+            label_foundSolution.Content = "N/A";
 
             if (solverWorker.IsBusy != true)
             {
                 if (!String.IsNullOrWhiteSpace(txtBox_k.Text))
                 {
-                    solverWorker.RunWorkerAsync(Byte.Parse(txtBox_k.Text));
+                    solverWorker.RunWorkerAsync(ushort.Parse(txtBox_k.Text));
                 }
                 else
                 {
-                    MessageBox.Show("Lütfen K değerini giriniz.");
+                    MessageBox.Show("Please enter the K value.");
                 }
             }
         }

@@ -8,7 +8,7 @@ namespace YapayZekaOdevi2
     public class HillClimbing
     {
 
-        public List<Row> FindLocalMaximum(BackgroundWorker worker, byte k)
+        public List<Row> FindLocalMaximum(BackgroundWorker worker, ushort k, out bool isCancelled)
         {
             bool found = false;
             Board[] currentBoards = GetRandomBoard(k);
@@ -17,7 +17,7 @@ namespace YapayZekaOdevi2
 
             while (!found && !worker.CancellationPending)
             {
-                for(byte i = 0; i < k; i++)
+                for(ushort i = 0; i < k; i++)
                 {
                     if (currentBoards[i].IsFinalBoard)
                     {
@@ -34,18 +34,26 @@ namespace YapayZekaOdevi2
                 
             }
 
-            if(found)
+            
+
+            if (found)
+            {
+                isCancelled = false;
                 return FormatFinalBoards(finalBoards, k);
+            }
             else
+            {
+                isCancelled = true;
                 return FormatFinalBoards(currentBoards, k);
+            }
         }
 
-        private List<Row> FormatFinalBoards(Board[] currentBoards, byte k)
+        private List<Row> FormatFinalBoards(Board[] currentBoards, ushort k)
         {
             List<Board>[] finalBoardPaths = new List<Board>[k];
             List<Row> finalBoards = new List<Row>();
 
-            for (byte i = 0; i < k; i++)
+            for (ushort i = 0; i < k; i++)
             {
                 finalBoardPaths[i] = currentBoards[i].GetPath();
             }
@@ -97,11 +105,11 @@ namespace YapayZekaOdevi2
         }
 
 
-        private Board[] GetRandomBoard(byte howMany)
+        private Board[] GetRandomBoard(ushort howMany)
         {
             Board[] retVal = new Board[howMany];
 
-            for (byte i = 0; i < howMany; i++)
+            for (ushort i = 0; i < howMany; i++)
             {
                 byte[] temp = new byte[19] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
                 
