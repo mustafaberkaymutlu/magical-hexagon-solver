@@ -31,13 +31,9 @@ namespace YapayZekaOdevi2
                         processedBoards.Add(currentBoards[i].BoardCode);
                         currentBoards[i] = GetHighestNeighbor(currentBoards[i], processedBoards);
                     }
-                    
                 }
-                
             }
-
-
-
+            
             if (found)
             {
                 List<Row> rows = FormatFinalBoards(finalBoards, k);
@@ -47,8 +43,6 @@ namespace YapayZekaOdevi2
                 List<Row> rows = FormatFinalBoards(currentBoards, k);
                 return new Result(rows, !found, ((uint)rows.Count), foundKNumber);
             }
-
-
         }
 
         private List<Row> FormatFinalBoards(Board[] currentBoards, ushort k)
@@ -103,12 +97,14 @@ namespace YapayZekaOdevi2
                 else
                     found = true;
 
-            } while (!found);
-            
-            return highestNeighbor;
+            } while (!found && neighbors.Count > 0);
+
+            if (found)
+                return highestNeighbor;
+            else
+                return null;
         }
-
-
+        
         private Board[] GetRandomBoard(ushort howMany)
         {
             Board[] retVal = new Board[howMany];
