@@ -4,42 +4,13 @@ namespace YapayZekaOdevi2
 {
     public class Row
     {
-        public List<Board> RowElements { get; set; } = new List<Board>();
+        public List<Board> RowElements { get; }
 
-        public int StepNo { get; set; }
+        public int StepNo { get; }
 
-        public double Average
-        {
-            get
-            {
-                double retVal = 0;
-                foreach (Board b in RowElements)
-                {
-                    retVal += b.Height;
-                }
+        public double Average;
 
-                retVal /= RowElements.Count;
-
-                return retVal;
-            }
-        }
-
-        public double Best
-        {
-            get
-            {
-                double retVal = double.MinValue;
-                foreach (Board b in RowElements)
-                {
-                    if (b.Height > retVal)
-                    {
-                        retVal = b.Height;
-                    }
-                }
-
-                return retVal;
-            }
-        }
+        public double Best;
 
         public string AverageString
         {
@@ -54,6 +25,42 @@ namespace YapayZekaOdevi2
             {
                 return string.Format("{0:0.000}", Best);
             }
+        }
+
+        public Row(List<Board> RowElements, int StepNo)
+        {
+            this.RowElements = RowElements;
+            this.StepNo = StepNo;
+
+            CalculateAverage();
+            CalculateBest();
+        }
+
+        private void CalculateAverage()
+        {
+            double average = 0;
+            foreach (Board b in RowElements)
+            {
+                average += b.Height;
+            }
+
+            average /= RowElements.Count;
+
+            this.Average = average;
+        }
+
+        private void CalculateBest()
+        {
+            double best = double.MinValue;
+            foreach (Board b in RowElements)
+            {
+                if (b.Height > best)
+                {
+                    best = b.Height;
+                }
+            }
+
+            this.Best = best;
         }
         
     }
