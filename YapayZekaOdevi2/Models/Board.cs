@@ -65,21 +65,6 @@ namespace YapayZekaOdevi2
             Height = retVal;
         }
 
-        // Calculates the Normalized Root Mean Square Error (NRMSE)
-        private double GetNRMSE()
-        {
-            double sum = 0;
-            double rmse = 0;
-            double nrmse;
-
-            foreach(byte b in Sums)
-                sum += Math.Pow(b - 38, 2);
-
-            rmse = Math.Sqrt(sum / Sums.Length);
-            nrmse = rmse / (Sums.Max() - Sums.Min());
-            return nrmse;
-        }
-
         private double GetMeanError()
         {
             double sum = 0;
