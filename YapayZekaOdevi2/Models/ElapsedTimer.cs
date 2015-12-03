@@ -3,35 +3,35 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Threading;
 
-namespace YapayZekaOdevi2.Models
+namespace MagicalHexagonSolver.Models
 {
     public class ElapsedTimer : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public string TimeElapsed { get; set; } = "N/A";
 
-        private DispatcherTimer timer;
-        private Stopwatch stopWatch;
+        private DispatcherTimer _timer;
+        private Stopwatch _stopWatch;
 
         public void StartTimer()
         {
-            timer = new DispatcherTimer();
-            timer.Tick += dispatcherTimerTick_;
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
-            stopWatch = new Stopwatch();
-            stopWatch.Start();
-            timer.Start();
+            _timer = new DispatcherTimer();
+            _timer.Tick += dispatcherTimerTick_;
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
+            _timer.Start();
         }
 
         public void StopTimer()
         {
-            timer.Stop();
+            _timer.Stop();
         }
 
         private void dispatcherTimerTick_(object sender, EventArgs e)
         {
-            TimeElapsed = string.Format("{0:0.00}", stopWatch.Elapsed.TotalSeconds) + " sec.";
-            PropertyChanged(this, new PropertyChangedEventArgs("TimeElapsed"));
+            TimeElapsed = $"{_stopWatch.Elapsed.TotalSeconds:0.00}" + " sec.";
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TimeElapsed"));
         }
     }
 }

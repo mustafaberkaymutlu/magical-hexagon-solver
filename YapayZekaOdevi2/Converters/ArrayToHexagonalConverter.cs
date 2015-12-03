@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Data;
+using MagicalHexagonSolver.Models;
 
-namespace YapayZekaOdevi2
+namespace MagicalHexagonSolver.Converters
 {
     public class ArrayToHexagonalConverter : IValueConverter
     {
@@ -11,7 +11,7 @@ namespace YapayZekaOdevi2
         {
             Board board = value as Board;
 
-            return board.BoardList[Int32.Parse((string)parameter)];
+            return board.BoardList[int.Parse((string)parameter)];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,45 +1,45 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using YapayZekaOdevi2.Models;
+using MagicalHexagonSolver.Models;
 
-namespace YapayZekaOdevi2
+namespace MagicalHexagonSolver
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BackgroundWorker solverWorker = new BackgroundWorker();
-        private BackgroundWorker testWorker = new BackgroundWorker();
-        private ElapsedTimer elapsedTimer = new ElapsedTimer();
+        private readonly BackgroundWorker _solverWorker = new BackgroundWorker();
+        private readonly BackgroundWorker _testWorker = new BackgroundWorker();
+        private readonly ElapsedTimer _elapsedTimer = new ElapsedTimer();
 
         
         public MainWindow()
         {
             InitializeComponent();
 
-            solverWorker.WorkerSupportsCancellation = true;
-            solverWorker.DoWork += new DoWorkEventHandler(solverWorker_DoWork);
-            solverWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(solverWorker_RunWorkerCompleted);
+            _solverWorker.WorkerSupportsCancellation = true;
+            _solverWorker.DoWork += new DoWorkEventHandler(solverWorker_DoWork);
+            _solverWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(solverWorker_RunWorkerCompleted);
 
-            testWorker.DoWork += new DoWorkEventHandler(testWorker_DoWork);
-            testWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(testWorker_RunWorkerCompleted);
+            _testWorker.DoWork += new DoWorkEventHandler(testWorker_DoWork);
+            _testWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(testWorker_RunWorkerCompleted);
 
-            label_elapsedTimer.DataContext = elapsedTimer;
+            LabelElapsedTimer.DataContext = _elapsedTimer;
         }
 
         private void testWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             SmallResult result = e.Result as SmallResult;
             
-            Console.WriteLine("Ortalama iterasyon sayisi: {0:G}", result.iterationCount / Config.TEST_MODE_ITERATION_COUNT);
-            Console.WriteLine("Bulma yuzdesi " + (double)result.foundCount / Config.TEST_MODE_ITERATION_COUNT);
+            Console.WriteLine("Ortalama iterasyon sayisi: {0:G}", result.IterationCount / Config.TEST_MODE_ITERATION_COUNT);
+            Console.WriteLine("Bulma yuzdesi " + (double)result.FoundCount / Config.TEST_MODE_ITERATION_COUNT);
 
-            label_working.Content = "No";
-            txtBox_k.IsEnabled = true;
-            btn_start.IsEnabled = true;
-            btn_cancel.IsEnabled = false;
+            LabelWorking.Content = "No";
+            TxtBoxK.IsEnabled = true;
+            BtnStart.IsEnabled = true;
+            BtnCancel.IsEnabled = false;
         }
 
         private void testWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -52,9 +52,9 @@ namespace YapayZekaOdevi2
             {
                 Console.WriteLine("{0:G}. deneme yapiliyor..", i);
                 Result result = hillClimbing.FindMaximum(worker, (ushort)e.Argument);
-                iterationCount += result.foundIterationNumber;
+                iterationCount += result.FoundIterationNumber;
 
-                if (result.solutionIsFound)
+                if (result.SolutionIsFound)
                     foundCount++;
             }
 
@@ -65,37 +65,37 @@ namespace YapayZekaOdevi2
         {
             Result result = e.Result as Result;
 
-            txtBox_k.IsEnabled = true;
-            btn_start.IsEnabled = true;
-            btn_cancel.IsEnabled = false;
+            TxtBoxK.IsEnabled = true;
+            BtnStart.IsEnabled = true;
+            BtnCancel.IsEnabled = false;
 
-            elapsedTimer.StopTimer();
+            _elapsedTimer.StopTimer();
 
-            label_working.Content = "No";
+            LabelWorking.Content = "No";
 
-            if (result.solverIsCancelled)
+            if (result != null && result.SolverIsCancelled)
             {
-                label_cancelled.Content = "Yes";
+                LabelCancelled.Content = "Yes";
             }
             else
             {
-                label_cancelled.Content = "No";
+                LabelCancelled.Content = "No";
             }
 
-            if (result.solutionIsFound)
+            if (result != null && result.SolutionIsFound)
             {
-                label_foundSolution.Content = "Yes";
-                label_foundIterationNumber.Content = result.foundIterationNumber.ToString();
-                label_foundKNumber.Content = result.foundKNumber.ToString();
+                LabelFoundSolution.Content = "Yes";
+                LabelFoundIterationNumber.Content = result.FoundIterationNumber.ToString();
+                LabelFoundKNumber.Content = result.FoundKNumber.ToString();
             }
             else
             {
-                label_foundSolution.Content = "No";
-                label_foundIterationNumber.Content = "N/A";
-                label_foundKNumber.Content = "N/A";
+                LabelFoundSolution.Content = "No";
+                LabelFoundIterationNumber.Content = "N/A";
+                LabelFoundKNumber.Content = "N/A";
             }
 
-            listView_steps.ItemsSource = result.rows;
+            if (result != null) ListViewSteps.ItemsSource = result.Rows;
         }
 
         private void solverWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -111,29 +111,29 @@ namespace YapayZekaOdevi2
         {
             if (Config.TEST_MODE)
             {
-                label_working.Content = "TEST";
-                txtBox_k.IsEnabled = false;
-                btn_start.IsEnabled = false;
-                btn_cancel.IsEnabled = false;
+                LabelWorking.Content = "TEST";
+                TxtBoxK.IsEnabled = false;
+                BtnStart.IsEnabled = false;
+                BtnCancel.IsEnabled = false;
 
-                testWorker.RunWorkerAsync(ushort.Parse(txtBox_k.Text));
+                _testWorker.RunWorkerAsync(ushort.Parse(TxtBoxK.Text));
             }
             else
             {
-                txtBox_k.IsEnabled = false;
-                btn_start.IsEnabled = false;
-                btn_cancel.IsEnabled = true;
-                listView_steps.ItemsSource = null;
-                label_working.Content = "Yes";
-                label_cancelled.Content = "N/A";
-                label_foundSolution.Content = "N/A";
+                TxtBoxK.IsEnabled = false;
+                BtnStart.IsEnabled = false;
+                BtnCancel.IsEnabled = true;
+                ListViewSteps.ItemsSource = null;
+                LabelWorking.Content = "Yes";
+                LabelCancelled.Content = "N/A";
+                LabelFoundSolution.Content = "N/A";
 
-                if (solverWorker.IsBusy != true)
+                if (_solverWorker.IsBusy != true)
                 {
-                    if (!String.IsNullOrWhiteSpace(txtBox_k.Text))
+                    if (!string.IsNullOrWhiteSpace(TxtBoxK.Text))
                     {
-                        solverWorker.RunWorkerAsync(ushort.Parse(txtBox_k.Text));
-                        elapsedTimer.StartTimer();
+                        _solverWorker.RunWorkerAsync(ushort.Parse(TxtBoxK.Text));
+                        _elapsedTimer.StartTimer();
                     }
                     else
                     {
@@ -145,18 +145,18 @@ namespace YapayZekaOdevi2
 
         private void btn_cancel_Click(object sender, RoutedEventArgs e)
         {
-            if(solverWorker.IsBusy)
-                solverWorker.CancelAsync();
+            if(_solverWorker.IsBusy)
+                _solverWorker.CancelAsync();
         }
 
         private class SmallResult{
-            public uint iterationCount;
-            public uint foundCount;
+            public readonly uint IterationCount;
+            public readonly uint FoundCount;
 
             public SmallResult(uint iterationCount, uint foundCount)
             {
-                this.iterationCount = iterationCount;
-                this.foundCount = foundCount;
+                IterationCount = iterationCount;
+                FoundCount = foundCount;
             }
         }
     }

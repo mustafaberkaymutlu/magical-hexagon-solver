@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace YapayZekaOdevi2
+namespace MagicalHexagonSolver.Models
 {
     public class Board
     {
@@ -10,12 +10,12 @@ namespace YapayZekaOdevi2
         public byte[] Sums;                     // Represents the 15 different sums that belongs to each Board (horizontal and cross sums)
         public double Height;                   // Height of the Board. Higher is better.
         public bool IsFinalBoard;               // Represents whether this is the final board or not.
-        private Board ParentBoard;              // This is used to keep board's path. So that we can track back to the first board status.
+        private readonly Board _parentBoard;              // This is used to keep board's path. So that we can track back to the first board status.
 
         public Board(byte[] boardList, Board parent)
         {
             BoardList = boardList;
-            ParentBoard = parent;
+            _parentBoard = parent;
 
             CalculateSums();
             CalculateIsFinalBoard();
@@ -45,7 +45,7 @@ namespace YapayZekaOdevi2
             sums[13] = (byte) (BoardList[3] + BoardList[8] + BoardList[13] + BoardList[17]);
             sums[14] = (byte) (BoardList[7] + BoardList[12] + BoardList[16]);
 
-            this.Sums = sums;
+            Sums = sums;
         }
         
         // Returns whether the board is final board.
@@ -58,22 +58,18 @@ namespace YapayZekaOdevi2
         // Height can be between 0 and +1.
         private void CalculateHeight()
         {
-            double retVal;
-            int sumsOK = Sums.Count(i => i == 38);
+            int sumsOk = Sums.Count(i => i == 38);
 
-            retVal = (sumsOK / Sums.Length + GetFullness()) / 2;
+            var retVal = ((double)sumsOk / Sums.Length + GetFullness()) / 2;
 
             Height = retVal;
         }
 
         private double GetMeanError()
         {
-            double sum = 0;
+            double sum = Sums.Aggregate<byte, double>(0, (current, b) => current + Math.Abs(b - 38));
 
-            foreach (byte b in Sums)
-                sum += Math.Abs(b - 38);
-
-            return (sum / Sums.Length);
+            return sum / Sums.Length;
         }
         
         private double GetFullness()
@@ -90,7 +86,7 @@ namespace YapayZekaOdevi2
             while (temp != null)
             {
                 retVal.Add(temp);
-                temp = temp.ParentBoard;
+                temp = temp._parentBoard;
             }
 
             retVal.Reverse();

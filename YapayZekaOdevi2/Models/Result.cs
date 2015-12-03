@@ -1,22 +1,22 @@
 ﻿using System.Collections.Generic;
 
-namespace YapayZekaOdevi2
+namespace MagicalHexagonSolver.Models
 {
     public class Result
     {
-        public bool solverIsCancelled;
-        public bool solutionIsFound;
-        public List<Row> rows;
-        public uint foundIterationNumber;
-        public ushort foundKNumber;
+        public bool SolverIsCancelled;
+        public bool SolutionIsFound;
+        public List<Row> Rows;
+        public uint FoundIterationNumber;
+        public ushort FoundKNumber;
 
         public Result(List<Row> rows, bool solverIsCancelled, bool solutionNotFound, uint foundIterationNumber, ushort foundKNumber)
         {
-            this.rows = rows;
-            this.solverIsCancelled = solverIsCancelled;
-            this.solutionIsFound = solutionNotFound;
-            this.foundIterationNumber = foundIterationNumber;
-            this.foundKNumber = foundKNumber;
+            Rows = rows;
+            SolverIsCancelled = solverIsCancelled;
+            SolutionIsFound = solutionNotFound;
+            FoundIterationNumber = foundIterationNumber;
+            FoundKNumber = foundKNumber;
         }
 
     }
