@@ -148,7 +148,7 @@
                         Canvas.Top="10"/>
 
                     <Label
-                        Content="Found K #:"
+                        Content="Found in K #:"
                         FontWeight="Bold" 
                         Canvas.Top="41" 
                         Canvas.Left="148"/>
