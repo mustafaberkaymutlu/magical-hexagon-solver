@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using MagicalHexagonSolver.Models;
 
-namespace YapayZekaOdevi2
+namespace MagicalHexagonSolver
 {
     public class HillClimbing
     {
@@ -41,7 +42,7 @@ namespace YapayZekaOdevi2
                     }
 
                     // If the Linked List's size is higher than it should be, then remove the oldest (first) item
-                    if (processedBoards[i].Count() > Config.PROCESSED_BOARDS_UPPER_LIMIT)
+                    if (processedBoards[i].Count > Config.PROCESSED_BOARDS_UPPER_LIMIT)
                     {
                         processedBoards[i].RemoveFirst();
                     }
@@ -49,7 +50,7 @@ namespace YapayZekaOdevi2
 
                 iterationCount++;
 
-                // If the iteration count is higher then maximum count, then stop with result solutionIsFound = false
+                // If the iteration count is higher then maximum count, then stop with result SolutionIsFound = false
                 if (iterationCount > Config.MAXIMUM_ITERATION_COUNT)
                 {
                     quit = true;
@@ -60,11 +61,11 @@ namespace YapayZekaOdevi2
             if (solutionIsFound)
             {
                 List<Row> rows = FormatFinalBoards(foundBoards, k);
-                return new Result(rows, worker.CancellationPending, solutionIsFound, ((uint)rows.Count), foundKNumber);
+                return new Result(rows, worker.CancellationPending, true, ((uint)rows.Count), foundKNumber);
             }
             else {
                 List<Row> rows = FormatFinalBoards(currentBoards, k);
-                return new Result(rows, worker.CancellationPending, solutionIsFound, ((uint)rows.Count), foundKNumber);
+                return new Result(rows, worker.CancellationPending, false, ((uint)rows.Count), foundKNumber);
             }
         }
 
@@ -82,12 +83,9 @@ namespace YapayZekaOdevi2
 
             // If this is not the solution board then remove the last elements of from that list.
             // We are removing the last elements because we want to stop the iteration when the final board is found.
-            foreach(List<Board> ff in finalBoardPaths)
+            foreach (List<Board> ff in finalBoardPaths.Where(ff => !ff[ff.Count - 1].IsFinalBoard))
             {
-                if (!ff[ff.Count - 1].IsFinalBoard)
-                {
-                    ff.RemoveAt(ff.Count - 1);
-                }
+                ff.RemoveAt(ff.Count - 1);
             }
             
             // Create Row objects and set the items.

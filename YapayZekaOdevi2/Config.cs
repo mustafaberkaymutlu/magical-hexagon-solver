@@ -1,5 +1,5 @@
 ﻿
-namespace YapayZekaOdevi2
+namespace MagicalHexagonSolver
 {
     public static class Config
     {
@@ -14,7 +14,7 @@ namespace YapayZekaOdevi2
         public static readonly ushort PROCESSED_BOARDS_UPPER_LIMIT = 10;
 
         // If MAXIMUM_ITERATION_COUNT is reached and still couldn't found any solution,
-        // than operation stops with result of solutionIsFound=false;
+        // than operation stops with result of SolutionIsFound=false;
         public static readonly ushort MAXIMUM_ITERATION_COUNT = 1000;
     }
 }

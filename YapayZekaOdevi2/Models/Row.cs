@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
-namespace YapayZekaOdevi2
+namespace MagicalHexagonSolver.Models
 {
     public class Row
     {
@@ -12,25 +13,14 @@ namespace YapayZekaOdevi2
 
         public double Best;
 
-        public string AverageString
-        {
-            get
-            {
-                return string.Format("{0:0.000}", Average);
-            }
-        }
+        public string AverageString => $"{Average:0.000}";
 
-        public string BestString {
-            get
-            {
-                return string.Format("{0:0.000}", Best);
-            }
-        }
+        public string BestString => $"{Best:0.000}";
 
-        public Row(List<Board> RowElements, int StepNo)
+        public Row(List<Board> rowElements, int stepNo)
         {
-            this.RowElements = RowElements;
-            this.StepNo = StepNo;
+            RowElements = rowElements;
+            StepNo = stepNo;
 
             CalculateAverage();
             CalculateBest();
@@ -38,29 +28,16 @@ namespace YapayZekaOdevi2
 
         private void CalculateAverage()
         {
-            double average = 0;
-            foreach (Board b in RowElements)
-            {
-                average += b.Height;
-            }
+            double average = RowElements.Sum(b => b.Height);
 
             average /= RowElements.Count;
 
-            this.Average = average;
+            Average = average;
         }
 
         private void CalculateBest()
         {
-            double best = double.MinValue;
-            foreach (Board b in RowElements)
-            {
-                if (b.Height > best)
-                {
-                    best = b.Height;
-                }
-            }
-
-            this.Best = best;
+            Best = RowElements.Select(b => b.Height).Concat(new[] { double.MinValue }).Max();
         }
         
     }
