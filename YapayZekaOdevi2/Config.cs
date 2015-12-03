@@ -9,8 +9,8 @@ namespace YapayZekaOdevi2
         // The count of iteration when test mode is on.
         public static readonly int TEST_MODE_ITERATION_COUNT = 100;
 
-        // If you chose Config.PROCESSED_BOARDS_UPPER_LIMIT higher than the count of 
-        // all neighbors a board can have, than GetHighestNeighbor(..) may fail.
+        // This is the upper limit for the Linked List that holds processed boards.
+        // GetHighestNeighbor(..) is removing neighbors that are also in this list.
         public static readonly ushort PROCESSED_BOARDS_UPPER_LIMIT = 10;
 
         // If MAXIMUM_ITERATION_COUNT is reached and still couldn't found any solution,

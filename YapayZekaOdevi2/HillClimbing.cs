@@ -7,8 +7,8 @@ namespace YapayZekaOdevi2
 {
     public class HillClimbing
     {
-
-        public Result FindLocalMaximum(BackgroundWorker worker, ushort k)
+        // Parallel Hill Climbing algorithm for finding the maximum of number placement problem. 
+        public Result FindMaximum(BackgroundWorker worker, ushort k)
         {
             bool solutionIsFound = false;
             bool quit = false;
@@ -25,21 +25,22 @@ namespace YapayZekaOdevi2
 
             while (!quit && !worker.CancellationPending)
             {
-                for(ushort i = 0; i < k; i++)
+                for(ushort i = 0; i < k; i++) // k different paths (or robots). Each of them are processing seperately
                 {
-                    if (currentBoards[i].IsFinalBoard)
+                    if (currentBoards[i].IsFinalBoard) // if this is the final board then stop
                     {
                         quit = true;
                         solutionIsFound = true;
                         foundKNumber = (ushort) (i + 1);
                         foundBoards = currentBoards;
                     }
-                    else
-                    {
+                    else // if this not the board we are looking for, 
+                    {    //  then select the highest neighbor and continue iteration
                         processedBoards[i].AddLast(currentBoards[i]);
                         currentBoards[i] = GetHighestNeighbor(currentBoards[i], processedBoards[i]);
                     }
 
+                    // If the Linked List's size is higher than it should be, then remove the oldest (first) item
                     if (processedBoards[i].Count() > Config.PROCESSED_BOARDS_UPPER_LIMIT)
                     {
                         processedBoards[i].RemoveFirst();
@@ -48,7 +49,8 @@ namespace YapayZekaOdevi2
 
                 iterationCount++;
 
-                if(iterationCount > Config.MAXIMUM_ITERATION_COUNT)
+                // If the iteration count is higher then maximum count, then stop with result solutionIsFound = false
+                if (iterationCount > Config.MAXIMUM_ITERATION_COUNT)
                 {
                     quit = true;
                     solutionIsFound = false;
@@ -66,16 +68,20 @@ namespace YapayZekaOdevi2
             }
         }
 
+        // Formats the boards as Row objects to be displayed in the UI.
         private List<Row> FormatFinalBoards(Board[] currentBoards, ushort k)
         {
             List<Board>[] finalBoardPaths = new List<Board>[k];
             List<Row> finalBoards = new List<Row>();
 
+            // Get all paths of the final boards.
             for (ushort i = 0; i < k; i++)
             {
                 finalBoardPaths[i] = currentBoards[i].GetPath();
             }
 
+            // If this is not the solution board then remove the last elements of from that list.
+            // We are removing the last elements because we want to stop the iteration when the final board is found.
             foreach(List<Board> ff in finalBoardPaths)
             {
                 if (!ff[ff.Count - 1].IsFinalBoard)
@@ -84,6 +90,8 @@ namespace YapayZekaOdevi2
                 }
             }
             
+            // Create Row objects and set the items.
+            // Row objects represents the each row of the GUI.
             for (int i = 0; i < finalBoardPaths[0].Count; i++)
             {
                 List<Board> temp = new List<Board>();
@@ -101,30 +109,33 @@ namespace YapayZekaOdevi2
             return finalBoards;
         }
 
+        // Creates all possible neighbors of a board, then removes the boards previously processed
+        // and lastly selects and returns the higher neighbor. 
         private Board GetHighestNeighbor(Board currentBoard, LinkedList<Board> processedBoards)
         {
             bool found = false;
             double maxHeight;
             Board highestNeighbor;
             List<Board> neighbors = GetNeighbors(currentBoard);
-
-            do
+            
+            do // Do this until we finally found a neigbor board.
             {
-                maxHeight = neighbors.Max(a => a.Height);
-                highestNeighbor = neighbors.First(a => a.Height == maxHeight);
+                maxHeight = neighbors.Max(a => a.Height); // Find the maximum value of Height in neighbors list.
+                highestNeighbor = neighbors.First(a => a.Height == maxHeight); // Get the first occurence with the maximum Height.
 
-                if(processedBoards.Any(j => j.BoardList.SequenceEqual(highestNeighbor.BoardList)))
+                // If we already processed this heighestNeighbor, then remove it from the neighbors list and find 
+                // a new highestNeighbor!
+                if (processedBoards.Any(j => j.BoardList.SequenceEqual(highestNeighbor.BoardList)))
                     neighbors.Remove(highestNeighbor);
                 else
                     found = true;
 
             } while (!found && neighbors.Count > 0);
-
-            // If you chose Config.SETTING_DO_NOT_TURN_BACK_UNTIL_ITERATION_COUNT higher than the count of 
-            // all neighbors a board can have, than GetHighestNeighbor(..) may fail.
+            
             return highestNeighbor;
         }
         
+        // Creates random boards.
         private Board[] GetRandomBoard(ushort howMany)
         {
             Board[] retVal = new Board[howMany];
@@ -132,13 +143,15 @@ namespace YapayZekaOdevi2
             for (ushort i = 0; i < howMany; i++)
             {
                 byte[] temp = new byte[19] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
-                
-                retVal[i] = new Board(temp.OrderBy(a => Guid.NewGuid()).ToArray(), null);
+
+                // Shuffle the array randomly and generate a Board object from shuffled array.
+                retVal[i] = new Board(temp.OrderBy(a => Guid.NewGuid()).ToArray(), null); 
             }
             
             return retVal;
         }
 
+        // Generates all neighbors of a board.
         public List<Board> GetNeighbors(Board board)
         {
             List<Board> retVal = new List<Board>();
@@ -155,6 +168,7 @@ namespace YapayZekaOdevi2
             return retVal;
         }
 
+        // Generates a board from a parent board. Replaces the items in the parent board.
         private Board GenerateBoard(Board board, byte index1, byte index2)
         {
             byte[] temp1 = new byte[board.BoardList.Count()];
