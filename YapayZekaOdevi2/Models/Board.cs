@@ -6,11 +6,11 @@ namespace YapayZekaOdevi2
 {
     public class Board
     {
-        public byte[] BoardList { get; set; }
-        public byte[] Sums;
-        public double Height;
-        public bool IsFinalBoard;
-        private Board ParentBoard; // This is used to keep board's path. So that we can track back to the first board status.
+        public byte[] BoardList { get; set; }   // Array that holds the values for each item in the hexagon.
+        public byte[] Sums;                     // Represents the 15 different sums that belongs to each Board (horizontal and cross sums)
+        public double Height;                   // Height of the Board. Higher is better.
+        public bool IsFinalBoard;               // Represents whether this is the final board or not.
+        private Board ParentBoard;              // This is used to keep board's path. So that we can track back to the first board status.
 
         public Board(byte[] boardList, Board parent)
         {
@@ -22,6 +22,7 @@ namespace YapayZekaOdevi2
             CalculateHeight();
         }
 
+        // Calculates the 15 different sums (horizontal and cross sums).
         private void CalculateSums()
         {
             byte[] sums = new byte[15];
@@ -53,13 +54,13 @@ namespace YapayZekaOdevi2
             IsFinalBoard = !(Sums.Any(o => o != Sums[0]));
         }
 
+        // Calculates the Height value of the Board.
+        // Height can be between 0 and +1.
         private void CalculateHeight()
         {
             double retVal;
-
             int sumsOK = Sums.Count(i => i == 38);
 
-            //retVal = (sumsOK / Sums.Length) - GetNRMSE();
             retVal = (sumsOK / Sums.Length + GetFullness()) / 2;
 
             Height = retVal;
@@ -74,7 +75,7 @@ namespace YapayZekaOdevi2
 
             return (sum / Sums.Length);
         }
-
+        
         private double GetFullness()
         {
             return (38 - GetMeanError()) / 38;

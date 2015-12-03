@@ -51,7 +51,7 @@ namespace YapayZekaOdevi2
             for (int i = 0; i < Config.TEST_MODE_ITERATION_COUNT; i++)
             {
                 Console.WriteLine("{0:G}. deneme yapiliyor..", i);
-                Result result = hillClimbing.FindLocalMaximum(worker, (ushort)e.Argument);
+                Result result = hillClimbing.FindMaximum(worker, (ushort)e.Argument);
                 iterationCount += result.foundIterationNumber;
 
                 if (result.solutionIsFound)
@@ -102,7 +102,7 @@ namespace YapayZekaOdevi2
         {
             BackgroundWorker worker = sender as BackgroundWorker;
             HillClimbing hillClimbing = new HillClimbing();
-            Result result = hillClimbing.FindLocalMaximum(worker, (ushort)e.Argument);
+            Result result = hillClimbing.FindMaximum(worker, (ushort)e.Argument);
 
             e.Result = result;
         }
