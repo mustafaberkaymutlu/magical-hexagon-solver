@@ -3,13 +3,18 @@ namespace YapayZekaOdevi2
 {
     public static class Config
     {
-        public static readonly int TEST_MEASUREMENT_COUNT = 100;
-        public static readonly bool TEST_MEASUREMENT_ACTIVE = false;
+        // Points if the testing mode is on or off.
+        public static readonly bool TEST_MODE = true;
 
-        // If you chose Config.SETTING_DO_NOT_TURN_BACK_UNTIL_ITERATION_COUNT higher than the count of 
+        // The count of iteration when test mode is on.
+        public static readonly int TEST_MODE_ITERATION_COUNT = 100;
+
+        // If you chose Config.PROCESSED_BOARDS_UPPER_LIMIT higher than the count of 
         // all neighbors a board can have, than GetHighestNeighbor(..) may fail.
-        public static readonly ushort SETTING_DO_NOT_TURN_BACK_UNTIL_ITERATION_COUNT = 10;
+        public static readonly ushort PROCESSED_BOARDS_UPPER_LIMIT = ushort.MaxValue;
 
-        public static readonly ushort SETTING_QUIT_WHEN_ITERATION_COUNT = 1000;
+        // If MAXIMUM_ITERATION_COUNT is reached and still couldn't found any solution,
+        // than operation stops with result of solutionIsFound=false;
+        public static readonly ushort MAXIMUM_ITERATION_COUNT = 1000;
     }
 }

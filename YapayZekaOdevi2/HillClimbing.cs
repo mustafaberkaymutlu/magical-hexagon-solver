@@ -40,7 +40,7 @@ namespace YapayZekaOdevi2
                         currentBoards[i] = GetHighestNeighbor(currentBoards[i], processedBoards[i]);
                     }
 
-                    if(processedBoards[i].Count() > Config.SETTING_DO_NOT_TURN_BACK_UNTIL_ITERATION_COUNT)
+                    if (processedBoards[i].Count() > Config.PROCESSED_BOARDS_UPPER_LIMIT)
                     {
                         processedBoards[i].RemoveFirst();
                     }
@@ -48,7 +48,7 @@ namespace YapayZekaOdevi2
 
                 iterationCount++;
 
-                if(iterationCount > Config.SETTING_QUIT_WHEN_ITERATION_COUNT)
+                if(iterationCount > Config.MAXIMUM_ITERATION_COUNT)
                 {
                     quit = true;
                     solutionIsFound = false;

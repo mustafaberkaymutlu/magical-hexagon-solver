@@ -34,8 +34,8 @@ namespace YapayZekaOdevi2
         {
             SmallResult result = e.Result as SmallResult;
             
-            Console.WriteLine("Ortalama iterasyon sayisi: {0:N}", result.iterationCount / Config.TEST_MEASUREMENT_COUNT);
-            Console.WriteLine("Bulma yuzdesi {0:N}", result.foundCount / Config.TEST_MEASUREMENT_COUNT);
+            Console.WriteLine("Ortalama iterasyon sayisi: {0:G}", result.iterationCount / Config.TEST_MODE_ITERATION_COUNT);
+            Console.WriteLine("Bulma yuzdesi " + (double)result.foundCount / Config.TEST_MODE_ITERATION_COUNT);
 
             label_working.Content = "No";
             txtBox_k.IsEnabled = true;
@@ -49,12 +49,13 @@ namespace YapayZekaOdevi2
             HillClimbing hillClimbing = new HillClimbing();
             uint iterationCount = 0;
             uint foundCount = 0;
-            for (int i = 0; i < Config.TEST_MEASUREMENT_COUNT; i++)
+            for (int i = 0; i < Config.TEST_MODE_ITERATION_COUNT; i++)
             {
-                Console.WriteLine("{0:N}. deneme yapiliyor..", i);
+                Console.WriteLine("{0:G}. deneme yapiliyor..", i);
                 Result result = hillClimbing.FindLocalMaximum(worker, (ushort)e.Argument);
                 iterationCount += result.foundIterationNumber;
-                if (!result.solverIsCancelled)
+
+                if (result.solutionIsFound)
                     foundCount++;
             }
 
@@ -109,7 +110,7 @@ namespace YapayZekaOdevi2
 
         private void btn_start_Click(object sender, RoutedEventArgs e)
         {
-            if (Config.TEST_MEASUREMENT_ACTIVE)
+            if (Config.TEST_MODE)
             {
                 label_working.Content = "TEST";
                 txtBox_k.IsEnabled = false;
