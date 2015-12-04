@@ -140,7 +140,7 @@ namespace MagicalHexagonSolver
 
             for (ushort i = 0; i < howMany; i++)
             {
-                byte[] temp = new byte[19] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+                byte[] temp = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
 
                 // Shuffle the array randomly and generate a Board object from shuffled array.
                 retVal[i] = new Board(temp.OrderBy(a => Guid.NewGuid()).ToArray(), null); 

@@ -20,11 +20,11 @@ namespace MagicalHexagonSolver
             InitializeComponent();
 
             _solverWorker.WorkerSupportsCancellation = true;
-            _solverWorker.DoWork += new DoWorkEventHandler(solverWorker_DoWork);
-            _solverWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(solverWorker_RunWorkerCompleted);
+            _solverWorker.DoWork += solverWorker_DoWork;
+            _solverWorker.RunWorkerCompleted += solverWorker_RunWorkerCompleted;
 
-            _testWorker.DoWork += new DoWorkEventHandler(testWorker_DoWork);
-            _testWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(testWorker_RunWorkerCompleted);
+            _testWorker.DoWork += testWorker_DoWork;
+            _testWorker.RunWorkerCompleted += testWorker_RunWorkerCompleted;
 
             LabelElapsedTimer.DataContext = _elapsedTimer;
         }
@@ -32,9 +32,12 @@ namespace MagicalHexagonSolver
         private void testWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             SmallResult result = e.Result as SmallResult;
-            
-            Console.WriteLine("Ortalama iterasyon sayisi: {0:G}", result.IterationCount / Config.TEST_MODE_ITERATION_COUNT);
-            Console.WriteLine("Bulma yuzdesi " + (double)result.FoundCount / Config.TEST_MODE_ITERATION_COUNT);
+
+            if (result != null)
+            {
+                Console.WriteLine(Properties.Resources.MainWindow_testWorker_RunWorkerCompleted_Average_iteration_count___0_G_, result.IterationCount / Config.TEST_MODE_ITERATION_COUNT);
+                Console.WriteLine(Properties.Resources.MainWindow_testWorker_RunWorkerCompleted_Founding_the_result_ratio__ + (double)result.FoundCount / Config.TEST_MODE_ITERATION_COUNT);
+            }
 
             LabelWorking.Content = "No";
             TxtBoxK.IsEnabled = true;
@@ -50,7 +53,7 @@ namespace MagicalHexagonSolver
             uint foundCount = 0;
             for (int i = 0; i < Config.TEST_MODE_ITERATION_COUNT; i++)
             {
-                Console.WriteLine("{0:G}. deneme yapiliyor..", i);
+                Console.WriteLine(Properties.Resources.MainWindow_testWorker_DoWork_Trial___0_G___, i);
                 Result result = hillClimbing.FindMaximum(worker, (ushort)e.Argument);
                 iterationCount += result.FoundIterationNumber;
 

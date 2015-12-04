@@ -59,5 +59,32 @@ namespace MagicalHexagonSolver.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trial #{0:G}...
+        /// </summary>
+        internal static string MainWindow_testWorker_DoWork_Trial___0_G___ {
+            get {
+                return ResourceManager.GetString("MainWindow_testWorker_DoWork_Trial___0_G___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Average iteration count: {0:G}.
+        /// </summary>
+        internal static string MainWindow_testWorker_RunWorkerCompleted_Average_iteration_count___0_G_ {
+            get {
+                return ResourceManager.GetString("MainWindow_testWorker_RunWorkerCompleted_Average_iteration_count___0_G_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Founding the result ratio: .
+        /// </summary>
+        internal static string MainWindow_testWorker_RunWorkerCompleted_Founding_the_result_ratio__ {
+            get {
+                return ResourceManager.GetString("MainWindow_testWorker_RunWorkerCompleted_Founding_the_result_ratio__", resourceCulture);
+            }
+        }
     }
 }

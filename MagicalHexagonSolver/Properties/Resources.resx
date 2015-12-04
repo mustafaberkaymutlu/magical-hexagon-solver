@@ -114,4 +114,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MainWindow_testWorker_RunWorkerCompleted_Average_iteration_count___0_G_" xml:space="preserve">
+    <value>Average iteration count: {0:G}</value>
+  </data>
+  <data name="MainWindow_testWorker_DoWork_Trial___0_G___" xml:space="preserve">
+    <value>Trial #{0:G}..</value>
+  </data>
+  <data name="MainWindow_testWorker_RunWorkerCompleted_Founding_the_result_ratio__" xml:space="preserve">
+    <value>Founding the result ratio: </value>
+  </data>
 </root>
